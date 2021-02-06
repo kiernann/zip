@@ -1,25 +1,32 @@
-Package: zip
+Package: zippr
 Title: Cross-Platform 'zip' Compression
-Version: 2.1.1.9000
-Author: Gábor Csárdi, Kuba Podgórski, Rich Geldreich
-Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
-Description: Cross-Platform 'zip' Compression Library. A replacement
-    for the 'zip' function, that does not require any additional
-    external tools on any platform.
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Kiernan",
+             family = "Nicholls",
+             role = "aut",
+             email = "kiernann@protonmail.com"),
+      person(given = "Gábor",
+             family = "Csárdi",
+             role = c("aut", "cre"),
+             email = "csardi.gabor@gmail.com"),
+      person(given = "Kuba",
+             family = "Podgórski",
+             role = c("aut", "cre")),
+      person(given = "Rich",
+             family = "Geldreich",
+             role = c("aut", "cre")))
+Description: Cross-Platform 'zip' Compression Library. A
+    replacement for the 'zip' function, that does not require any
+    additional external tools on any platform. Based on the 'r-lib/zip'
+    package <https://github.com/r-lib/zip> but modified to have consistent
+    function names, better argument positions, and return modern data
+    classes.
 License: MIT + file LICENSE
-LazyData: true
-URL: https://github.com/r-lib/zip#readme
-BugReports: https://github.com/r-lib/zip/issues
-RoxygenNote: 7.1.1
-Roxygen: list(
-    packages = "roxygenlabs",
-    markdown = TRUE,
-    roclets = c("collate", "namespace", "roxygenlabs::roxygenlabs_rd"))
-Config/testthat/edition: 3
-Suggests:
-    covr,
-    processx,
-    R6,
-    testthat,
-    withr
+URL: https:://kiernann.com/zippr,
+    https://github.com/kiernann/zippr
+BugReports: https://github.com/kiernann/zippr/issues
 Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

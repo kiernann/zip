@@ -1,13 +1,21 @@
-# development version
+# forked version: kiernann/zippr
+
+* Change package name from 'zip' to 'zippr'.
+
+-----
+
+# original version: r-lib/zip
+
+## development version
 
 * Header values (of version made by and external attributes) are now correctly
   read and written on big-endian systems (#68).
 
-# 2.1.1
+## 2.1.1
 
 This version has no user visible changes.
 
-# 2.1.0
+## 2.1.0
 
 * `unzip_process()` now does not fail randomly on Windows (#60).
 
@@ -28,18 +36,18 @@ This version has no user visible changes.
 * `zip()` and `zip_append()` are not deprecated any more, as it was
   hard to achieve the same functionality with the other zip functions.
 
-# 2.0.4
+## 2.0.4
 
 * `unzip_process()` prints better error messages to the standard error,
   and exits with a non-zero status, on error.
 
-# 2.0.3
+## 2.0.3
 
 * `zipr()` and `zipr_append()` get an `include_directories = TRUE`
   argument, that can be used to omit directory entries from the zip
   archive. These entries may cause problems in MS Office docx files (#34).
 
-# 2.0.2
+## 2.0.2
 
 * `zip_process()` and `unzip_process()` can now pass extra arguments to
   `processx::process` (#32).
@@ -48,12 +56,12 @@ This version has no user visible changes.
   forward slashes on Windows, mixing forward and backward slashes can
   cause errors.
 
-# 2.0.1
+## 2.0.1
 
 * `zip()` and `zip_append()` are now soft-deprecated, please use
   `zipr()` and `zipr_append()` instead.
 
-# 2.0.0
+## 2.0.0
 
 * New `zipr()` and `zipr_append()`, they always store relative file names
   in the archive.
@@ -77,6 +85,6 @@ This version has no user visible changes.
 
 * Use miniz 2.0.8 internally.
 
-# 1.0.0
+## 1.0.0
 
 First public release.
