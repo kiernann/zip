@@ -54,7 +54,7 @@ remotes::install_github("kiernann/zippr")
 [life_link]: https://www.tidyverse.org/lifecycle/#experimental
 [cran_badge]: https://www.r-pkg.org/badges/version/zippr
 [cran_link]: https://CRAN.R-project.org/package=zippr
-[ga_badge]: https://github.com/kiernann/zippr/workflows/R-CMD-check/badge.svg
+[ga_badge]: https://github.com/kiernann/zippr/workflows/check-standard/badge.svg
 [ga_link]: https://github.com/kiernann/zippr/actions
 [cov_badge]: https://codecov.io/gh/kiernann/zippr/branch/master/graph/badge.svg
 [cov_link]: https://codecov.io/gh/kiernann/zippr?branch=master
