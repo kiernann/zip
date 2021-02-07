@@ -1,6 +1,4 @@
-
-#' @theme assets/extra.css assets/rd.js
-#' @useDynLib zip, .registration = TRUE, .fixes = "c_"
+#' @useDynLib zippr, .registration = TRUE, .fixes = "c_"
 NULL
 
 #' Compress Files into 'zip' Archives
@@ -30,7 +28,7 @@ NULL
 #'
 #' E.g. consider the following directory structure:
 #'
-#' ```{r echo = FALSE, comment = ""}
+#' ``` r
 #' dir.create(tmp <- tempfile())
 #' oldwd <- getwd()
 #' setwd(tmp)
@@ -47,10 +45,10 @@ NULL
 #'
 #' Assuming the current working directory is `foo`, the following zip
 #' entries are created by `zip`:
-#' ```{r, echo = 2:4}
+#' ``` r
 #' setwd(tmp)
 #' setwd("foo")
-#' zip::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
+#' zippr::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
 #' zip_list("../test.zip")[, "filename", drop = FALSE]
 #' setwd(oldwd)
 #' ```
@@ -65,10 +63,10 @@ NULL
 #'
 #' Here is an example with the same directory structure as above:
 #'
-#' ```{r, echo = 3:4}
+#' ``` r
 #' setwd(tmp)
 #' setwd("foo")
-#' zip::zip(
+#' zippr::zip(
 #'   "../test2.zip",
 #'   c("bar/file1", "bar2", "../foo2"),
 #'   mode = "cherry-pick"
@@ -110,7 +108,6 @@ NULL
 #'   See "Relative Paths" below for details.
 #' @return The name of the created zip file, invisibly.
 #'
-#' @export
 #' @examples
 #' ## Some files to zip up. We will run all this in the R sesion's
 #' ## temporary directory, to avoid messing up the user's workspace.
@@ -120,7 +117,7 @@ NULL
 #' cat("second file", file = file.path(tmp, "mydir", "file2"))
 #'
 #' zipfile <- tempfile(fileext = ".zip")
-#' zip::zip(zipfile, "mydir", root = tmp)
+#' zippr::zip(zipfile, "mydir", root = tmp)
 #'
 #' ## List contents
 #' zip_list(zipfile)
@@ -129,7 +126,7 @@ NULL
 #' cat("third file", file = file.path(tmp, "mydir", "file3"))
 #' zip_append(zipfile, file.path("mydir", "file3"), root = tmp)
 #' zip_list(zipfile)
-
+#' @export
 zip <- function(zipfile, files, recurse = TRUE, compression_level = 9,
                 include_directories = TRUE, root = ".",
                 mode = c("mirror", "cherry-pick")) {
@@ -141,7 +138,6 @@ zip <- function(zipfile, files, recurse = TRUE, compression_level = 9,
 
 #' @rdname zip
 #' @export
-
 zipr <- function(zipfile, files, recurse = TRUE, compression_level = 9,
                  include_directories = TRUE, root = ".",
                  mode = c("cherry-pick", "mirror")) {
@@ -153,7 +149,6 @@ zipr <- function(zipfile, files, recurse = TRUE, compression_level = 9,
 
 #' @rdname zip
 #' @export
-
 zip_append <- function(zipfile, files, recurse = TRUE,
                        compression_level = 9, include_directories = TRUE,
                        root = ".", mode = c("mirror", "cherry-pick")) {
@@ -165,7 +160,6 @@ zip_append <- function(zipfile, files, recurse = TRUE,
 
 #' @rdname zip
 #' @export
-
 zipr_append <- function(zipfile, files, recurse = TRUE,
                         compression_level = 9, include_directories = TRUE,
                         root = ".", mode = c("cherry-pick", "mirror")) {
@@ -200,7 +194,6 @@ zip_internal <- function(zipfile, files, recurse, compression_level,
 #'
 #' @family zip/unzip functions
 #' @export
-
 zip_list <- function(zipfile) {
   zipfile <- enc2utf8(normalizePath(zipfile))
   res <- .Call(c_R_zip_list, zipfile)
@@ -238,7 +231,6 @@ zip_list <- function(zipfile) {
 #' @param exdir Directory to uncompress the archive to. If it does not
 #'   exist, it will be created.
 #'
-#' @export
 #' @examples
 #' ## temporary directory, to avoid messing up the user's workspace.
 #' dir.create(tmp <- tempfile())
@@ -247,7 +239,7 @@ zip_list <- function(zipfile) {
 #' cat("second file", file = file.path(tmp, "mydir", "file2"))
 #'
 #' zipfile <- tempfile(fileext = ".zip")
-#' zip::zip(zipfile, "mydir", root = tmp)
+#' zippr::zip(zipfile, "mydir", root = tmp)
 #'
 #' ## List contents
 #' zip_list(zipfile)
@@ -256,7 +248,7 @@ zip_list <- function(zipfile) {
 #' tmp2 <- tempfile()
 #' unzip(zipfile, exdir = tmp2)
 #' dir(tmp2, recursive = TRUE)
-
+#' @export
 unzip <- function(zipfile, files = NULL, overwrite = TRUE,
                       junkpaths = FALSE, exdir = ".") {
 

@@ -26,7 +26,7 @@ test_that("can compress / uncompress large files", {
   dir.create(tmp2 <- tempfile())
 
   unlink(file1)
-  zip::unzip(zipfile, exdir = tmp2)
+  zippr::unzip(zipfile, exdir = tmp2)
   expect_equal(file.info(file.path(tmp2, "file1"))$size, size)
 })
 
@@ -45,7 +45,7 @@ test_that("can compress / uncompress many files", {
   expect_equal(nrow(l), 70001)
 
   tmp2 <- test_temp_dir()
-  zip::unzip(zip, exdir = tmp2)
+  zippr::unzip(zip, exdir = tmp2)
   expect_equal(
     length(dir(file.path(tmp2, basename(tmp)))),
     70000)

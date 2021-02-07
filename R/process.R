@@ -1,4 +1,3 @@
-
 os_type <- function() {
   .Platform$OS.type
 }
@@ -58,7 +57,6 @@ super <- ""
 #' @return An `unzip_process` R6 class object, a subclass of
 #' [processx::process].
 #'
-#' @export
 #' @examples
 #' ex <- system.file("example.zip", package = "zip")
 #' tmp <- tempfile()
@@ -66,7 +64,7 @@ super <- ""
 #' up$wait()
 #' up$get_exit_status()
 #' dir(tmp)
-
+#' @export
 unzip_process <- function() {
   need_packages(c("processx", "R6"), "creating unzip processes")
   zip_data$unzip_class <- zip_data$unzip_class %||%
@@ -125,7 +123,6 @@ unzip_process <- function() {
 #' @return A `zip_process` R6 class object, a subclass of
 #' [processx::process].
 #'
-#' @export
 #' @examples
 #' dir.create(tmp <- tempfile())
 #' write.table(iris, file = file.path(tmp, "iris.ssv"))
@@ -134,7 +131,7 @@ unzip_process <- function() {
 #' zp$wait()
 #' zp$get_exit_status()
 #' zip_list(zipfile)
-
+#' @export
 zip_process <- function() {
   need_packages(c("processx", "R6"), "creating zip processes")
   zip_data$zip_class <- zip_data$zip_class %||%

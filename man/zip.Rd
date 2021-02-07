@@ -67,7 +67,7 @@ reading docx files, so set this to \code{FALSE} for creating them.}
 archive.}
 
 \item{mode}{Selects how files and directories are stored in
-the archice. It can be \code{"mirror"} or \code{"cherrypick"}.
+the archice. It can be \code{"mirror"} or \code{"cherry-pick"}.
 See "Relative Paths" below for details.}
 }
 \value{
@@ -75,10 +75,6 @@ The name of the created zip file, invisibly.
 }
 \description{
 \code{zip()} creates a new zip archive file.
-
-\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
-
-\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
 }
 \details{
 \code{zip_append()} appends compressed files to an existing 'zip' file.
@@ -100,28 +96,27 @@ non-portable archives: some zip tools do not handle zip archives that
 contain absolute file names, or file names that start with \verb{../} or
 \verb{./}. zip warns you if this should happen.)
 
-E.g. consider the following directory structure:\preformatted{.
-|-- foo
-|   |-- bar
-|   |   |-- file1
-|   |   `-- file2
-|   `-- bar2
-`-- foo2
-    `-- file3
-}
+E.g. consider the following directory structure:\if{html}{\out{<div class="r">}}\preformatted{dir.create(tmp <- tempfile())
+oldwd <- getwd()
+setwd(tmp)
+dir.create("foo/bar", recursive = TRUE)
+dir.create("foo/bar2")
+dir.create("foo2")
+cat("this is file1", file = "foo/bar/file1")
+cat("this is file2", file = "foo/bar/file2")
+cat("this is file3", file = "foo2/file3")
+out <- processx::run("tree", c("--noreport", "--charset=ascii"))
+cat(crayon::strip_style(out$stdout))
+setwd(oldwd)
+}\if{html}{\out{</div>}}
 
 Assuming the current working directory is \code{foo}, the following zip
-entries are created by \code{zip}:\if{html}{\out{<div class="r">}}\preformatted{setwd("foo")
-zip::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
-}\if{html}{\out{</div>}}\preformatted{## Warning in warn_for_dotdot(data$key): Some paths reference parent directory,
-## creating non-portable zip file
-}\if{html}{\out{<div class="r">}}\preformatted{zip_list("../test.zip")[, "filename", drop = FALSE]
-}\if{html}{\out{</div>}}\preformatted{##        filename
-## 1     bar/file1
-## 2         bar2/
-## 3      ../foo2/
-## 4 ../foo2/file3
-}
+entries are created by \code{zip}:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
+setwd("foo")
+zippr::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
+zip_list("../test.zip")[, "filename", drop = FALSE]
+setwd(oldwd)
+}\if{html}{\out{</div>}}
 }
 
 \subsection{Cherry picking mode}{
@@ -132,18 +127,16 @@ want to select a subset of files and directories, possibly from
 different paths and put all of the in the archive, at the top
 level.
 
-Here is an example with the same directory structure as above:\if{html}{\out{<div class="r">}}\preformatted{zip::zip(
+Here is an example with the same directory structure as above:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
+setwd("foo")
+zippr::zip(
   "../test2.zip",
   c("bar/file1", "bar2", "../foo2"),
   mode = "cherry-pick"
 )
 zip_list("../test2.zip")[, "filename", drop = FALSE]
-}\if{html}{\out{</div>}}\preformatted{##     filename
-## 1      file1
-## 2      bar2/
-## 3      foo2/
-## 4 foo2/file3
-}
+setwd(oldwd)
+}\if{html}{\out{</div>}}
 }
 
 }
@@ -175,7 +168,7 @@ cat("first file", file = file.path(tmp, "mydir", "file1"))
 cat("second file", file = file.path(tmp, "mydir", "file2"))
 
 zipfile <- tempfile(fileext = ".zip")
-zip::zip(zipfile, "mydir", root = tmp)
+zippr::zip(zipfile, "mydir", root = tmp)
 
 ## List contents
 zip_list(zipfile)

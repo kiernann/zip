@@ -1,4 +1,4 @@
 library(testthat)
-library(zip)
+library(zippr)
 
-test_check("zip")
+test_check("zippr")

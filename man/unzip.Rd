@@ -26,10 +26,6 @@ exist, it will be created.}
 \description{
 \code{unzip()} always restores modification times of the extracted files and
 directories.
-
-\if{html}{\out{<link rel="stylesheet" type="text/css" href="../doc/assets/extra.css">}}
-
-\if{html}{\out{<script src="../doc/assets/rd.js"></script>}}
 }
 \section{Permissions}{
 
@@ -46,7 +42,7 @@ cat("first file", file = file.path(tmp, "mydir", "file1"))
 cat("second file", file = file.path(tmp, "mydir", "file2"))
 
 zipfile <- tempfile(fileext = ".zip")
-zip::zip(zipfile, "mydir", root = tmp)
+zippr::zip(zipfile, "mydir", root = tmp)
 
 ## List contents
 zip_list(zipfile)
@@ -54,5 +50,5 @@ zip_list(zipfile)
 ## Extract
 tmp2 <- tempfile()
 unzip(zipfile, exdir = tmp2)
-dir(tmp2)
+dir(tmp2, recursive = TRUE)
 }
