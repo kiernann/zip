@@ -28,8 +28,6 @@ URL: https:://kiernann.com/zippr,
 BugReports: https://github.com/kiernann/zippr/issues
 Suggests: 
     covr (>= 3.5.1),
-    processx (>= 3.4.5),
-    R6 (>= 2.5.0),
     testthat (>= 3.0.1),
     withr (>= 2.4.1)
 Encoding: UTF-8

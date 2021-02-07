@@ -1,6 +1,7 @@
 # forked version: kiernann/zippr
 
 * Change package name from 'zip' to 'zippr'.
+* Remove `zip_process()` and `unzip_process()` (for now?).
 
 -----
 
