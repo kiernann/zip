@@ -4,18 +4,18 @@ Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Kiernan",
              family = "Nicholls",
-             role = "aut",
+             role = c("aut", "cre"),
              email = "kiernann@protonmail.com"),
       person(given = "Gábor",
              family = "Csárdi",
-             role = c("aut", "cre"),
+             role = "aut",
              email = "csardi.gabor@gmail.com"),
       person(given = "Kuba",
              family = "Podgórski",
-             role = c("aut", "cre")),
+             role = "aut"),
       person(given = "Rich",
              family = "Geldreich",
-             role = c("aut", "cre")))
+             role = "aut"))
 Description: Cross-Platform 'zip' Compression Library. A
     replacement for the 'zip' function, that does not require any
     additional external tools on any platform. Based on the 'r-lib/zip'
@@ -26,9 +26,13 @@ License: MIT + file LICENSE
 URL: https:://kiernann.com/zippr,
     https://github.com/kiernann/zippr
 BugReports: https://github.com/kiernann/zippr/issues
+Suggests: 
+    covr (>= 3.5.1),
+    processx (>= 3.4.5),
+    R6 (>= 2.5.0),
+    testthat (>= 3.0.1),
+    withr (>= 2.4.1)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Suggests: 
-    covr
