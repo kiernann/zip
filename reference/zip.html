@@ -305,18 +305,18 @@ to <code>zip()</code> and <code>zipr_append()</code> with a different default fo
 <span class='co'>## List contents</span>
 <span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='va'>zipfile</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      filename compressed_size uncompressed_size           timestamp permissions
-#&gt; 1      mydir/               0                 0 2021-02-07 05:23:28         777
-#&gt; 2 mydir/file1              15                10 2021-02-07 05:23:28         666
-#&gt; 3 mydir/file2              16                11 2021-02-07 05:23:28         666</div><div class='input'>
+#&gt; 1      mydir/               0                 0 2021-02-07 18:15:52         777
+#&gt; 2 mydir/file1              15                10 2021-02-07 18:15:52         666
+#&gt; 3 mydir/file2              16                11 2021-02-07 18:15:52         666</div><div class='input'>
 <span class='co'>## Add another file</span>
 <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"third file"</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmp</span>, <span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>zip_append</span><span class='op'>(</span><span class='va'>zipfile</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span>, root <span class='op'>=</span> <span class='va'>tmp</span><span class='op'>)</span>
 <span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='va'>zipfile</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      filename compressed_size uncompressed_size           timestamp permissions
-#&gt; 1      mydir/               0                 0 2021-02-07 05:23:28         666
-#&gt; 2 mydir/file1              15                10 2021-02-07 05:23:28         666
-#&gt; 3 mydir/file2              16                11 2021-02-07 05:23:28         666
-#&gt; 4 mydir/file3              15                10 2021-02-07 05:23:28         600</div></pre>
+#&gt; 1      mydir/               0                 0 2021-02-07 18:15:52         666
+#&gt; 2 mydir/file1              15                10 2021-02-07 18:15:52         666
+#&gt; 3 mydir/file2              16                11 2021-02-07 18:15:52         666
+#&gt; 4 mydir/file3              15                10 2021-02-07 18:15:52         600</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
