@@ -11,5 +11,5 @@ zippr comes bundled with a sample archive in its \code{inst/extdata} directory.
 This function make it easy to access.
 }
 \examples{
-zippr_example()
+zip_example()
 }
