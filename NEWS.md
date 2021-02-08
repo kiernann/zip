@@ -2,6 +2,8 @@
 
 * Change package name from 'zip' to 'zippr'.
 * Remove `zip_process()` and `unzip_process()` (for now?).
+* Rename `zip()` to `zip_create()`. Rename arguments and move paths to first.
+* Remove `zipr()` and `zipr_append()`. Add `keep_paths` over `mode` argument.
 
 -----
 

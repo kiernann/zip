@@ -2,178 +2,101 @@
 % Please edit documentation in R/create.R
 \name{zip_create}
 \alias{zip_create}
-\alias{zip_create2}
 \alias{zip_append}
-\alias{zip_append2}
-\title{Compress Files into 'zip' Archives}
+\title{Compress files into ZIP archives}
 \usage{
 zip_create(
-  zipfile,
-  files,
+  path,
+  archive,
   recurse = TRUE,
-  compression_level = 9,
-  include_directories = TRUE,
-  root = ".",
-  mode = c("mirror", "cherry-pick")
-)
-
-zip_create2(
-  zipfile,
-  files,
-  recurse = TRUE,
-  compression_level = 9,
-  include_directories = TRUE,
-  root = ".",
-  mode = c("cherry-pick", "mirror")
+  level = 9,
+  junk_paths = FALSE,
+  include_dirs = TRUE,
+  root = "."
 )
 
 zip_append(
-  zipfile,
-  files,
+  path,
+  archive,
   recurse = TRUE,
-  compression_level = 9,
-  include_directories = TRUE,
-  root = ".",
-  mode = c("mirror", "cherry-pick")
-)
-
-zip_append2(
-  zipfile,
-  files,
-  recurse = TRUE,
-  compression_level = 9,
-  include_directories = TRUE,
-  root = ".",
-  mode = c("cherry-pick", "mirror")
+  level = 9,
+  junk_paths = FALSE,
+  include_dirs = TRUE,
+  root = "."
 )
 }
 \arguments{
-\item{zipfile}{The zip file to create. If the file exists, \code{zip} overwrites
-it, but \code{zip_append} appends to it.}
+\item{path}{Character vector of files to add to the archive.}
 
-\item{files}{List of file to add to the archive. See details below about
-absolute and relative path names.}
+\item{archive}{The ZIP file path to create. If the file exists,
+\code{\link[=zip_create]{zip_create()}} overwrites it, but \code{\link[=zip_append]{zip_append()}} appends to it.}
 
 \item{recurse}{Whether to add the contents of directories recursively.}
 
-\item{compression_level}{A number between 1 and 9. 9 compresses best, but it
-also takes the longest.}
+\item{level}{Integer between 1 and 9. Higher compression takes longer.}
 
-\item{include_directories}{Whether to explicitly include directories in the
-archive. Including directories might confuse MS Office when reading docx
-files, so set this to \code{FALSE} for creating them.}
+\item{junk_paths}{Whether to remove full file path. See "Relative paths"
+below for more. An alternative to the \code{mode} argument of \code{\link[zip:zip]{zip::zip()}}.}
 
-\item{root}{Change to this working directory before creating the archive.}
+\item{include_dirs}{Whether to explicitly include directories in the archive.}
 
-\item{mode}{Selects how files and directories are stored in the archice. It
-can be \code{"mirror"} or \code{"cherry-pick"}. See "Relative Paths" below for
-details.}
+\item{root}{Directory to temporarily change to before creating archive.}
 }
 \value{
-The name of the created zip file, invisibly.
+The name of the created ZIP archive, invisibly.
 }
 \description{
-\code{zip_create()} creates a new zip archive file.
+Compared to \code{\link[zip:zip]{zip::zip()}} and \code{\link[utils:zip]{utils::zip()}}, \code{\link[=zip_create]{zip_create()}} takes the path of
+files to include in the archive as the first argument. Append new compressed
+files to an existing archive with \code{\link[=zip_append]{zip_append()}}.
 }
 \details{
-\code{zip_append()} appends compressed files to an existing 'zip' file.
 \subsection{Relative paths}{
 
-\code{zip_create()} and \code{zip_append()} can run in two different modes: mirror
-mode and cherry picking mode. They handle the specified \code{files}
-differently.
-\subsection{Mirror mode}{
+\code{zip_create()} and \code{zip_append()} both use the \code{junk_paths} argument in lieu
+of the \code{mode} argument from \code{\link[zip:zip]{zip::zip()}}.
 
-Mirror mode is for creating the zip archive of a directory structure,
-exactly as it is on the disk. The current working directory will
-be the root of the archive, and the paths will be fully kept.
-zip changes the current directory to \code{root} before creating the
-archive.
+When \code{junk_paths} is set to \code{FALSE} (the default), the directory structure of
+included files is preserved; the working directory will temporarily be
+changed to the \code{root} argument before creating the archive.
 
-(Absolute paths are also kept. Note that this might result
-non-portable archives: some zip tools do not handle zip archives that
-contain absolute file names, or file names that start with \verb{../} or
-\verb{./}. zip warns you if this should happen.)
+(Absolute paths are also kept. Note that this might result non-portable
+archives: some zip tools do not handle ZIP archives that contain absolute
+file names, or file names that start with \verb{../} or \verb{./}. zippr warns you if
+this should happen.)
 
-E.g. consider the following directory structure:\if{html}{\out{<div class="r">}}\preformatted{dir.create(tmp <- tempfile())
-oldwd <- getwd()
-setwd(tmp)
-dir.create("foo/bar", recursive = TRUE)
-dir.create("foo/bar2")
-dir.create("foo2")
-cat("this is file1", file = "foo/bar/file1")
-cat("this is file2", file = "foo/bar/file2")
-cat("this is file3", file = "foo2/file3")
-fs::dir_tree(tmp)
-setwd(oldwd)
-}\if{html}{\out{</div>}}
-
-Assuming the current working directory is \code{foo}, the following zip
-entries are created by \code{zip}:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
-setwd("foo")
-zip_create("../test.zip", c("bar/file1", "bar2", "../foo2"))
-zip_list("../test.zip")[, "filename", drop = FALSE]
-setwd(oldwd)
-}\if{html}{\out{</div>}}
-}
-
-\subsection{Cherry picking mode}{
-
-In cherry picking mode, the selected files and directories
-will be at the root of the archive. This mode is handy if you
-want to select a subset of files and directories, possibly from
-different paths and put all of the in the archive, at the top
-level.
-
-Here is an example with the same directory structure as above:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
-setwd("foo")
-zip_create(
-  "../test2.zip",
-  c("bar/file1", "bar2", "../foo2"),
-  mode = "cherry-pick"
-)
-zip_list("../test2.zip")[, "filename", drop = FALSE]
-setwd(oldwd)
-}\if{html}{\out{</div>}}
-}
-
+When \code{junk_paths} is set to \code{TRUE}, the selected files and directories will
+be at the root of the archive. This mode is handy if you want to select a
+subset of files and directories, possibly from different paths and put all of
+the in the archive, at the top level.
 }
 
 \subsection{Permissions:}{
 
-\code{zip_create()} (and \code{zip_append()}, etc.) add the permissions of the archived
-files and directories to the ZIP archive, on Unix systems. Most zip and unzip
+\code{zip_create()} (and \code{zip_append()}) add the permissions of the archived files
+and directories to the ZIP archive, on Unix systems. Most zip and unzip
 implementations support these, so they will be recovered after extracting the
-archive.
-
-Note, however that the owner and group (uid and gid) are currently omitted,
-even on Unix.
-}
-
-\subsection{\code{zipr()} and \code{zipr_append()}}{
-
-These function exist for historical reasons. They are identical to
-\code{zip_create()} and \code{zipr_append()} with a different default for the \code{mode}
-argument.
+archive. Note, however that the owner and group (uid and gid) are currently
+omitted, even on Unix.
 }
 }
 \examples{
-## Some files to zip up. We will run all this in the R sesion's
-## temporary directory, to avoid messing up the user's workspace.
-dir.create(tmp <- tempfile())
-dir.create(file.path(tmp, "mydir"))
-cat("first file", file = file.path(tmp, "mydir", "file1"))
-cat("second file", file = file.path(tmp, "mydir", "file2"))
+\dontshow{.old_wd <- setwd(tempdir())}
+library(fs)
+dir_create(path("mydir"))
+cat("first file", file = path("mydir", "file1"))
+cat("second file", file = path("mydir", "file2"))
 
-zipfile <- tempfile(fileext = ".zip")
-zip_create(zipfile, "mydir", root = tmp)
+z <- file_temp(ext = "zip")
+zip_create("mydir", z)
 
 ## List contents
-zip_list(zipfile)
+zip_list(z)
 
 ## Add another file
-cat("third file", file = file.path(tmp, "mydir", "file3"))
-zip_append(zipfile, file.path("mydir", "file3"), root = tmp)
-zip_list(zipfile)
+cat("third file", file = path("mydir", "file3"))
+path("mydir", "file3") \%>\% zip_append(z)
+zip_list(z)
+\dontshow{setwd(.old_wd)}
 
 }
