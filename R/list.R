@@ -1,20 +1,27 @@
-#' List Files in a 'zip' Archive
+#' List information on files in a ZIP archive
 #'
-#' Compared to [zip::zip_list()], archive contents here are given as a tibble
-#' data frame when available (use `options(fs.use_tibble = FALSE)` to disable)
-#' and columns use classes like [fs::fs_bytes()], which have numeric values in a
-#' human readable format.
+#' @description
+#' [zip_info()] is similar to the `unzip -l` command. Compared to
+#' [zip::zip_list()], the data frame is returned as a tibble when available and
+#' columns use human readable classes like [fs::dir_info()].
 #'
-#' @param zipfile Path to an existing ZIP file.
-#' @return A tibble with 'fs' class columns.
+#' [zip_ls()] returns only the names of the files in an archive, like
+#' [fs::dir_ls()].
+#'
+#' @details
+#' USes the `options(fs.use_tibble = FALSE)` to disable tibble printing.
+#'
+#' @param archive Path to an existing ZIP archive.
+#' @return A data.frame with 'fs' class columns.
 #' @family zip/unzip functions
 #' @examples
-#' zip_list(zip_example())
+#' zip_info(zip_example())
+#' zip_ls(zip_example())
 #' @importFrom fs path_norm fs_path fs_bytes fs_perms
 #' @export
-zip_list <- function(zipfile) {
-  zipfile <- fs::path_norm(zipfile)
-  res <- .Call(c_R_zip_list, zipfile)
+zip_info <- function(archive) {
+  archive <- enc2utf8(normalizePath(archive))
+  res <- .Call(c_R_zip_list, archive)
   dat <- data.frame(
     stringsAsFactors = FALSE,
     filename = fs::fs_path(res[[1]]),
@@ -24,4 +31,12 @@ zip_list <- function(zipfile) {
   )
   dat$permissions <- fs::fs_perms(res[[5]])
   as_tibble(dat)
+}
+
+#' @rdname zip_info
+#' @export
+zip_ls <- function(archive) {
+  archive <- enc2utf8(normalizePath(archive))
+  res <- .Call(c_R_zip_list, archive)
+  fs::fs_path(res[[1]])
 }

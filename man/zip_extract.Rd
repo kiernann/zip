@@ -33,7 +33,7 @@ exist, it will be created.}
 An \code{\link[fs:fs_path]{fs::fs_path()}} character vecttor of extracted files, invisibly.
 
 This is like the "internal" method of \code{\link[utils:unzip]{utils::unzip()}} and unlike
-\code{\link[zip:unzip]{zip::unzip()}} (See r-lib/zip#35). The \code{\link[=zip_list]{zip_list()}} C function is called
+\code{\link[zip:unzip]{zip::unzip()}} (See r-lib/zip#35). The \code{\link[=zip_info]{zip_info()}} C internal is called
 separately to get file names, which are not yet returned from the C internal
 used for extraction.
 }
@@ -59,7 +59,7 @@ z <- file_temp(ext = "zip")
 zip_create(z, files = "mydir")
 
 ## List contents
-zip_list(z)
+zip_info(z)
 
 ## Extract
 tmp <- path_temp()

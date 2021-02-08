@@ -31,7 +31,7 @@
 #' zip_create(z, files = "mydir")
 #'
 #' ## List contents
-#' zip_list(z)
+#' zip_info(z)
 #'
 #' ## Extract
 #' tmp <- path_temp()
@@ -43,7 +43,7 @@
 #' An [fs::fs_path()] character vecttor of extracted files, invisibly.
 #'
 #' This is like the "internal" method of [utils::unzip()] and unlike
-#' [zip::unzip()] (See r-lib/zip#35). The [zip_list()] C function is called
+#' [zip::unzip()] (See r-lib/zip#35). The [zip_info()] C internal is called
 #' separately to get file names, which are not yet returned from the C internal
 #' used for extraction.
 #' @importFrom fs dir_create path_real
