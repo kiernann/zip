@@ -130,3 +130,16 @@ need_packages <- function(pkgs, what = "this function") {
     }
   }
 }
+
+# from r-lib/fs/R/utils.R
+as_tibble <- function(x) {
+  if (getOption("fs.use_tibble", TRUE) && is_installed("tibble")) {
+    tibble::as_tibble(x)
+  } else {
+    x
+  }
+}
+
+is_installed <- function(pkg) {
+  isTRUE(requireNamespace(pkg, quietly = TRUE))
+}
