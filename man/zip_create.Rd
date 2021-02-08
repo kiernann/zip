@@ -111,7 +111,7 @@ setwd(oldwd)
 Assuming the current working directory is \code{foo}, the following zip
 entries are created by \code{zip}:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
 setwd("foo")
-zippr::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
+zip_create("../test.zip", c("bar/file1", "bar2", "../foo2"))
 zip_list("../test.zip")[, "filename", drop = FALSE]
 setwd(oldwd)
 }\if{html}{\out{</div>}}
@@ -127,7 +127,7 @@ level.
 
 Here is an example with the same directory structure as above:\if{html}{\out{<div class="r">}}\preformatted{setwd(tmp)
 setwd("foo")
-zippr::zip(
+zip_create(
   "../test2.zip",
   c("bar/file1", "bar2", "../foo2"),
   mode = "cherry-pick"
@@ -166,7 +166,7 @@ cat("first file", file = file.path(tmp, "mydir", "file1"))
 cat("second file", file = file.path(tmp, "mydir", "file2"))
 
 zipfile <- tempfile(fileext = ".zip")
-zippr::zip(zipfile, "mydir", root = tmp)
+zip_create(zipfile, "mydir", root = tmp)
 
 ## List contents
 zip_list(zipfile)

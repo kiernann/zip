@@ -47,7 +47,7 @@ NULL
 #' ``` r
 #' setwd(tmp)
 #' setwd("foo")
-#' zippr::zip("../test.zip", c("bar/file1", "bar2", "../foo2"))
+#' zip_create("../test.zip", c("bar/file1", "bar2", "../foo2"))
 #' zip_list("../test.zip")[, "filename", drop = FALSE]
 #' setwd(oldwd)
 #' ```
@@ -65,7 +65,7 @@ NULL
 #' ``` r
 #' setwd(tmp)
 #' setwd("foo")
-#' zippr::zip(
+#' zip_create(
 #'   "../test2.zip",
 #'   c("bar/file1", "bar2", "../foo2"),
 #'   mode = "cherry-pick"
@@ -114,7 +114,7 @@ NULL
 #' cat("second file", file = file.path(tmp, "mydir", "file2"))
 #'
 #' zipfile <- tempfile(fileext = ".zip")
-#' zippr::zip(zipfile, "mydir", root = tmp)
+#' zip_create(zipfile, "mydir", root = tmp)
 #'
 #' ## List contents
 #' zip_list(zipfile)
