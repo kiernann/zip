@@ -120,7 +120,7 @@ test_that("overwrite is FALSE", {
 test_that("junkpaths is TRUE", {
   z <- make_a_zip()
   tmp <- test_temp_dir()
-  zip_extract(z$zip, exdir = tmp, junkpaths = TRUE)
+  zip_extract(z$zip, exdir = tmp, junk_paths = TRUE)
 
   expect_true(file.exists(file.path(tmp, "file1")))
   expect_true(file.exists(file.path(tmp, "file2")))
