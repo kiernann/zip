@@ -26,6 +26,8 @@ License: MIT + file LICENSE
 URL: https:://kiernann.com/zippr,
     https://github.com/kiernann/zippr
 BugReports: https://github.com/kiernann/zippr/issues
+Imports: 
+    fs (>= 1.5.0)
 Suggests: 
     covr (>= 3.5.1),
     testthat (>= 3.0.1),
