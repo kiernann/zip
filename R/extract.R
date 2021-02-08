@@ -58,7 +58,7 @@ zip_extract <- function(zipfile, files = NULL, overwrite = TRUE,
     is_flag(junk_paths),
     is_string(exdir))
 
-  zipfile <- fs::path_real(zipfile)
+  zipfile <- enc2utf8(normalizePath(zipfile))
 
   if (!is.null(files)) {
     files <- enc2utf8(files)

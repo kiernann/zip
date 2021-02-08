@@ -110,7 +110,7 @@ test_that("uncompressed path with non-ASCII characters", {
   l <- zip_info("zip1.zip")
   expect_equal(
     l$filename,
-    c(paste0(root, "/"), file.path(root, ufile, fsep = "/"))
+    c(root, file.path(root, ufile, fsep = "/"))
   )
   expect_equal(Encoding(l$filename), rep("UTF-8", 2))
 
@@ -128,7 +128,7 @@ test_that("uncompressed path with non-ASCII characters", {
   zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     l2$filename,
-    c(paste0(root, "/"), file.path(root, ufile, fsep = "/"))
+    c(root, file.path(root, ufile, fsep = "/"))
   )
 })
 
@@ -199,3 +199,4 @@ test_that("zip file with non-ASCII characters", {
   unlink(zipfile)
 
 })
+
