@@ -40,10 +40,6 @@ make_big_file1 <- function(file, mb) {
   Sys.chmod(file, "0644")
 }
 
-bns <- function(x) {
-  paste0(basename(x), "/")
-}
-
 test_temp_file <- function(fileext = "", pattern = "test-file-",
                            envir = parent.frame(), create = TRUE) {
   tmp <- tempfile(pattern = pattern, fileext = fileext)

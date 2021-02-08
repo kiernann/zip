@@ -8,23 +8,23 @@ test_that("base path with spaces", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zippr::zip("zip1.zip", c("dir1", "dir2"), mode = "mirror")
+  zip_create("zip1.zip", c("dir1", "dir2"), mode = "mirror")
   l <- zip_list("zip1.zip")
-  expect_equal(l$filename, c("dir1/", "dir1/file1", "dir2/", "dir2/file2"))
+  expect_equal(l$filename, c("dir1", "dir1/file1", "dir2", "dir2/file2"))
 
   dir.create("ex1")
-  zippr::unzip("zip1.zip", exdir = "ex1")
+  zip_extract("zip1.zip", exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     c("dir1/file1", "dir2/file2")
   )
 
-  zippr::zip("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
+  zip_create("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
   l2 <- zip_list("zip2.zip")
-  expect_equal(l2$filename, c("dir1/", "dir1/file1", "file2"))
+  expect_equal(l2$filename, c("dir1", "dir1/file1", "file2"))
 
   dir.create("ex2")
-  zippr::unzip("zip2.zip", exdir = "ex2")
+  zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     sort(dir("ex2", recursive = TRUE)),
     c("dir1/file1", "file2")
@@ -36,28 +36,28 @@ test_that("uncompressed path with spaces", {
   root <- "root 1 2"
   dir.create(root)
   cat("contents\n", file = file.path(root, "file 3 4"))
-  zip("zip1.zip", root, mode = "mirror")
+  zip_create("zip1.zip", root, mode = "mirror")
   l <- zip_list("zip1.zip")
   expect_equal(
     l$filename,
-    c(paste0(root, "/"), file.path(root, "file 3 4", fsep = "/"))
+    c(root, file.path(root, "file 3 4", fsep = "/"))
   )
 
   dir.create("ex1")
-  zippr::unzip("zip1.zip", exdir = "ex1")
+  zip_extract("zip1.zip", exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     file.path(root, "file 3 4", fsep = "/")
   )
 
-  zip("zip2.zip", root, mode = "cherry-pick")
+  zip_create("zip2.zip", root, mode = "cherry-pick")
   l2 <- zip_list("zip2.zip")
 
   dir.create("ex2")
-  zippr::unzip("zip2.zip", exdir = "ex2")
+  zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     l2$filename,
-    c(paste0(root, "/"), file.path(root, "file 3 4", fsep = "/"))
+    c(root, file.path(root, "file 3 4", fsep = "/"))
   )
 })
 
@@ -74,23 +74,23 @@ test_that("base path with non-ASCII characters", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zippr::zip("zip1.zip", c("dir1", "dir2"), mode = "mirror")
+  zip_create("zip1.zip", c("dir1", "dir2"), mode = "mirror")
   l <- zip_list("zip1.zip")
   expect_equal(l$filename, c("dir1/", "dir1/file1", "dir2/", "dir2/file2"))
 
   dir.create("ex1")
-  zippr::unzip("zip1.zip", exdir = "ex1")
+  zip_extract("zip1.zip", exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     c("dir1/file1", "dir2/file2")
   )
 
-  zippr::zip("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
+  zip_create("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
   l2 <- zip_list("zip2.zip")
   expect_equal(l2$filename, c("dir1/", "dir1/file1", "file2"))
 
   dir.create("ex2")
-  zippr::unzip("zip2.zip", exdir = "ex2")
+  zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     sort(dir("ex2", recursive = TRUE)),
     c("dir1/file1", "file2")
@@ -115,7 +115,7 @@ test_that("uncompressed path with non-ASCII characters", {
   expect_equal(Encoding(l$filename), rep("UTF-8", 2))
 
   dir.create("ex1")
-  zippr::unzip("zip1.zip", exdir = "ex1")
+  zip_extract("zip1.zip", exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     file.path(root, ufile, fsep = "/")
@@ -125,7 +125,7 @@ test_that("uncompressed path with non-ASCII characters", {
   l2 <- zip_list("zip2.zip")
 
   dir.create("ex2")
-  zippr::unzip("zip2.zip", exdir = "ex2")
+  zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     l2$filename,
     c(paste0(root, "/"), file.path(root, ufile, fsep = "/"))
@@ -139,23 +139,23 @@ test_that("zip file with spaces", {
   cat("file1", file = "dir1/file 1")
   cat("file2", file = "dir 2/file2")
 
-  zippr::zip("zip1.zip", c("dir1", "dir 2"), mode = "mirror")
+  zip_create("zip1.zip", c("dir1", "dir 2"), mode = "mirror")
   l <- zip_list("zip1.zip")
-  expect_equal(l$filename, c("dir1/", "dir1/file 1", "dir 2/", "dir 2/file2"))
+  expect_equal(l$filename, c("dir1", "dir1/file 1", "dir 2", "dir 2/file2"))
 
   dir.create("ex1")
-  zippr::unzip("zip1.zip", exdir = "ex1")
+  zip_extract("zip1.zip", exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     sort(c("dir1/file 1", "dir 2/file2"))
   )
 
-  zippr::zip("zip2.zip", c("dir1", "dir 2/file2"), mode = "cherry-pick")
+  zip_create("zip2.zip", c("dir1", "dir 2/file2"), mode = "cherry-pick")
   l2 <- zip_list("zip2.zip")
-  expect_equal(l2$filename, c("dir1/", "dir1/file 1", "file2"))
+  expect_equal(l2$filename, c("dir1", "dir1/file 1", "file2"))
 
   dir.create("ex2")
-  zippr::unzip("zip2.zip", exdir = "ex2")
+  zip_extract("zip2.zip", exdir = "ex2")
   expect_equal(
     sort(dir("ex2", recursive = TRUE)),
     c("dir1/file 1", "file2")
@@ -170,12 +170,12 @@ test_that("zip file with non-ASCII characters", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zippr::zip(zipfile, c("dir1", "dir2"), mode = "mirror")
+  zip_create(zipfile, c("dir1", "dir2"), mode = "mirror")
   l <- zip_list(zipfile)
-  expect_equal(l$filename, c("dir1/", "dir1/file1", "dir2/", "dir2/file2"))
+  expect_equal(l$filename, c("dir1", "dir1/file1", "dir2", "dir2/file2"))
 
   dir.create("ex1")
-  zippr::unzip(zipfile, exdir = "ex1")
+  zip_extract(zipfile, exdir = "ex1")
   expect_equal(
     sort(dir("ex1", recursive = TRUE)),
     c("dir1/file1", "dir2/file2")
@@ -185,12 +185,12 @@ test_that("zip file with non-ASCII characters", {
 
   # ----------------------------------------------------------------
 
-  zippr::zip(zipfile, c("dir1", "dir2/file2"), mode = "cherry-pick")
+  zip_create(zipfile, c("dir1", "dir2/file2"), mode = "cherry-pick")
   l2 <- zip_list(zipfile)
-  expect_equal(l2$filename, c("dir1/", "dir1/file1", "file2"))
+  expect_equal(l2$filename, c("dir1", "dir1/file1", "file2"))
 
   dir.create("ex2")
-  zippr::unzip(zipfile, exdir = "ex2")
+  zip_extract(zipfile, exdir = "ex2")
   expect_equal(
     sort(dir("ex2", recursive = TRUE)),
     c("dir1/file1", "file2")

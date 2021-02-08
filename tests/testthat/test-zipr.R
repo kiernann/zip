@@ -12,7 +12,7 @@ test_that("can compress single directory", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -21,7 +21,7 @@ test_that("can compress single directory", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")))
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
   )
 })
 
@@ -37,7 +37,7 @@ test_that("can compress single file", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -59,7 +59,7 @@ test_that("can compress multiple files", {
   expect_silent(
     withr::with_dir(
       dirname(tmp1),
-      zipr(zipfile, basename(c(tmp1, tmp2)))
+      zip_create2(zipfile, basename(c(tmp1, tmp2)))
     )
   )
 
@@ -85,7 +85,7 @@ test_that("can compress multiple directories", {
   expect_silent(
     withr::with_dir(
       dirname(tmp1),
-      zipr(zipfile, basename(c(tmp1, tmp2)))
+      zip_create2(zipfile, basename(c(tmp1, tmp2)))
     )
   )
 
@@ -94,8 +94,8 @@ test_that("can compress multiple directories", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp1), file.path(basename(tmp1), c("file1", "file2")),
-      bns(tmp2), file.path(basename(tmp2), c("file3", "file4")))
+    c(basename(tmp1), file.path(basename(tmp1), c("file1", "file2")),
+      basename(tmp2), file.path(basename(tmp2), c("file3", "file4")))
   )
 })
 
@@ -114,7 +114,7 @@ test_that("can compress files and directories", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(c(file1, tmp, file2)))
+      zip_create2(zipfile, basename(c(file1, tmp, file2)))
     )
   )
 
@@ -123,7 +123,7 @@ test_that("can compress files and directories", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(basename(file1), bns(tmp),
+    c(basename(file1), basename(tmp),
       file.path(basename(tmp), c("file1", "file2")),
       basename(file2))
   )
@@ -144,7 +144,7 @@ test_that("warning for directories in non-recursive mode", {
   expect_warning(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(c(file1, tmp, file2)), recurse = FALSE)
+      zip_create2(zipfile, basename(c(file1, tmp, file2)), recurse = FALSE)
     ),
     "directories ignored"
   )
@@ -171,14 +171,14 @@ test_that("compression level is used", {
   expect_silent(
     withr::with_dir(
       dirname(file),
-      zipr(zipfile1, basename(file), compression_level = 1)
+      zip_create2(zipfile1, basename(file), compression_level = 1)
     )
   )
 
   expect_silent(
     withr::with_dir(
       dirname(file),
-      zipr(zipfile2, basename(file), compression_level = 9)
+      zip_create2(zipfile2, basename(file), compression_level = 9)
     )
   )
 
@@ -207,7 +207,7 @@ test_that("can append a directory to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -216,7 +216,7 @@ test_that("can append a directory to an archive", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")))
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
   )
 
   dir.create(tmp2 <- tempfile())
@@ -226,15 +226,15 @@ test_that("can append a directory to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr_append(zipfile, basename(tmp2))
+      zip_append2(zipfile, basename(tmp2))
     )
   )
 
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")),
-      bns(tmp2), file.path(basename(tmp2), c("file3", "file4")))
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
+      basename(tmp2), file.path(basename(tmp2), c("file3", "file4")))
   )
 })
 
@@ -251,7 +251,7 @@ test_that("can append a file to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -260,7 +260,7 @@ test_that("can append a file to an archive", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")))
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
   )
 
   cat("first file2", file = file1 <- tempfile())
@@ -268,14 +268,14 @@ test_that("can append a file to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr_append(zipfile, basename(file1))
+      zip_append2(zipfile, basename(file1))
     )
   )
 
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")),
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
       basename(file1))
   )
 })
@@ -293,7 +293,7 @@ test_that("can append files and directories to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -302,7 +302,7 @@ test_that("can append files and directories to an archive", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")))
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
   )
 
   cat("first file2", file = file1 <- tempfile())
@@ -313,16 +313,16 @@ test_that("can append files and directories to an archive", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr_append(zipfile, basename(c(file1, tmp2)))
+      zip_append2(zipfile, basename(c(file1, tmp2)))
     )
   )
 
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(bns(tmp), file.path(basename(tmp), c("file1", "file2")),
+    c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
       basename(file1),
-      bns(tmp2), file.path(basename(tmp2), c("file3", "file4")))
+      basename(tmp2), file.path(basename(tmp2), c("file3", "file4")))
   )
 })
 
@@ -339,7 +339,7 @@ test_that("empty directories are archived as directories", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp))
+      zip_create2(zipfile, basename(tmp))
     )
   )
 
@@ -347,8 +347,8 @@ test_that("empty directories are archived as directories", {
   list <- zip_list(zipfile)
   expect_equal(
     list$filename,
-    c(paste0(bt, "/"), paste0(bt, "/foo/"), paste0(bt, "/foo/bar/"),
-      paste0(bt, "/foo/bar2/"), paste0(bt, "/foo/file1"))
+    c(bt, paste0(bt, "/foo"), paste0(bt, "/foo/bar"),
+      paste0(bt, "/foo/bar2"), paste0(bt, "/foo/file1"))
   )
 
   on.exit(unlink(tmp2, recursive = TRUE), add = TRUE)
@@ -386,7 +386,7 @@ test_that("Permissions are kept on Unix", {
   Sys.chmod(f, "0777",  FALSE)
 
   zip <- test_temp_file(".zip", create = FALSE)
-  zipr(zip, tmp)
+  zip_create2(zip, tmp)
 
   l <- zip_list(zip)
 
@@ -414,7 +414,7 @@ test_that("can omit directories", {
   expect_silent(
     withr::with_dir(
       dirname(tmp),
-      zipr(zipfile, basename(tmp), include_directories = FALSE)
+      zip_create2(zipfile, basename(tmp), include_directories = FALSE)
     )
   )
 
