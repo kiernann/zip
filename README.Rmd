@@ -35,10 +35,11 @@ The exact functionality of this package is still extremely fluid.
 Three main types of changes are being made:
 
 1. Consistently rename _all_ functions with `zip_*` to avoid masking
-   `utils::zip()` and `utils::unzip()`.
+   `utils::zip()` and `utils::unzip()`. Match to names like `fs::dir_info()`.
 2. Arrange arguments in a consistent order, accepting the primary file paths as
-   the first argument for easy piping.
-3. Return more data (sometimes invisibly) with [tibble] and [fs] classes.
+   the first argument for easy piping with `%>%`.
+3. Return more data (sometimes invisibly) with human readable [tibble] data 
+   frames and [fs] class vectors.
 
 ## Installation
 
@@ -48,6 +49,67 @@ You can install the development version of zippr from [GitHub][gh] with:
 # install.packages("remotes")
 remotes::install_github("kiernann/zippr")
 ```
+
+Install the release version of zip from [CRAN][cran] if needed.
+
+```{r zip, eval=FALSE}
+install.packages("zip")
+```
+
+## Usage
+
+```{r libs}
+library(magrittr)
+library(zippr)
+library(fs)
+```
+
+### Compressing
+
+`zip_create()` takes uncompressed files and creates a compressed ZIP archive.
+Simply supply all directories and files that you want to include in the archive.
+Arguments have been arranged to accept piped paths.
+
+It makes sense to change to the top-level directory of the files before
+archiving them, so that the files are stored using a relative path name.
+
+```{r zip_create}
+tmp <- dir_ls("R") %>% 
+  # pipe paths into zip
+  zip_create("sources.zip")
+```
+
+```{r file_info}
+file_info(tmp)[, 1:5]
+```
+
+Directories are added recursively by default.
+
+`zip_append()` is similar to `zip_create()`, but it appends files to an existing
+ZIP archive.
+
+### Listing
+
+`zip_list()` lists files in a ZIP archive. It returns a tibble with human
+readable [fs] columns. To get just the file _names_, use `zip_ls()`.
+
+```{r zip_info}
+zip_info(tmp)
+```
+
+### Extracting
+
+`zip_extract()` uncompresses a ZIP archive:
+
+```{r}
+out <- zip_extract(
+  zipfile = tmp, 
+  exdir = tempdir(), 
+  junk_paths = TRUE,
+)
+file_info(out)[, 1:5]
+```
+
 
 <!-- refs: start -->
 [life_badge]: https://img.shields.io/badge/lifecycle-experimental-orange.svg
@@ -64,4 +126,5 @@ remotes::install_github("kiernann/zippr")
 [fs]: https://github.com/r-lib/fs/
 [tibble]: https://github.com/tidyverse/tibble/
 [gh]: https://github.com/kiernann/zippr
+[cran]: https://cran.r-project.org/package=zip
 <!-- refs: end -->
