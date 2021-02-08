@@ -3,13 +3,13 @@ NULL
 
 #' Compress Files into 'zip' Archives
 #'
-#' `zip()` creates a new zip archive file.
+#' `zip_create()` creates a new zip archive file.
 #'
 #' `zip_append()` appends compressed files to an existing 'zip' file.
 #'
 #' ## Relative paths
 #'
-#' `zip()` and `zip_append()` can run in two different modes: mirror
+#' `zip_create()` and `zip_append()` can run in two different modes: mirror
 #' mode and cherry picking mode. They handle the specified `files`
 #' differently.
 #'
@@ -38,8 +38,7 @@ NULL
 #' cat("this is file1", file = "foo/bar/file1")
 #' cat("this is file2", file = "foo/bar/file2")
 #' cat("this is file3", file = "foo2/file3")
-#' out <- processx::run("tree", c("--noreport", "--charset=ascii"))
-#' cat(crayon::strip_style(out$stdout))
+#' fs::dir_tree(tmp)
 #' setwd(oldwd)
 #' ```
 #'
@@ -77,36 +76,34 @@ NULL
 #'
 #' ## Permissions:
 #'
-#' `zip()` (and `zip_append()`, etc.) add the permissions of
-#' the archived files and directories to the ZIP archive, on Unix systems.
-#' Most zip and unzip implementations support these, so they will be
-#' recovered after extracting the archive.
+#' `zip_create()` (and `zip_append()`, etc.) add the permissions of the archived
+#' files and directories to the ZIP archive, on Unix systems. Most zip and unzip
+#' implementations support these, so they will be recovered after extracting the
+#' archive.
 #'
-#' Note, however that the owner and group (uid and gid) are currently
-#' omitted, even on Unix.
+#' Note, however that the owner and group (uid and gid) are currently omitted,
+#' even on Unix.
 #'
 #' ## `zipr()` and `zipr_append()`
 #'
-#' These function exist for historical reasons. They are identical
-#' to `zip()` and `zipr_append()` with a different default for the
-#' `mode` argument.
+#' These function exist for historical reasons. They are identical to
+#' `zip_create()` and `zipr_append()` with a different default for the `mode`
+#' argument.
 #'
-#' @param zipfile The zip file to create. If the file exists, `zip`
-#'   overwrites it, but `zip_append` appends to it.
-#' @param files List of file to add to the archive. See details below
-#'    about absolute and relative path names.
+#' @param zipfile The zip file to create. If the file exists, `zip` overwrites
+#'   it, but `zip_append` appends to it.
+#' @param files List of file to add to the archive. See details below about
+#'   absolute and relative path names.
 #' @param recurse Whether to add the contents of directories recursively.
-#' @param compression_level A number between 1 and 9. 9 compresses best,
-#'   but it also takes the longest.
-#' @param include_directories Whether to explicitly include directories
-#'   in the archive. Including directories might confuse MS Office when
-#'   reading docx files, so set this to `FALSE` for creating them.
-#' @param root Change to this working directory before creating the
-#'   archive.
-#' @param mode Selects how files and directories are stored in
-#'   the archice. It can be `"mirror"` or `"cherry-pick"`.
-#'   See "Relative Paths" below for details.
-#' @return The name of the created zip file, invisibly.
+#' @param compression_level A number between 1 and 9. 9 compresses best, but it
+#'   also takes the longest.
+#' @param include_directories Whether to explicitly include directories in the
+#'   archive. Including directories might confuse MS Office when reading docx
+#'   files, so set this to `FALSE` for creating them.
+#' @param root Change to this working directory before creating the archive.
+#' @param mode Selects how files and directories are stored in the archice. It
+#'   can be `"mirror"` or `"cherry-pick"`. See "Relative Paths" below for
+#'   details.
 #'
 #' @examples
 #' ## Some files to zip up. We will run all this in the R sesion's
@@ -126,28 +123,30 @@ NULL
 #' cat("third file", file = file.path(tmp, "mydir", "file3"))
 #' zip_append(zipfile, file.path("mydir", "file3"), root = tmp)
 #' zip_list(zipfile)
+#'
+#' @return The name of the created zip file, invisibly.
 #' @export
-zip <- function(zipfile, files, recurse = TRUE, compression_level = 9,
-                include_directories = TRUE, root = ".",
-                mode = c("mirror", "cherry-pick")) {
+zip_create <- function(zipfile, files, recurse = TRUE, compression_level = 9,
+                       include_directories = TRUE, root = ".",
+                       mode = c("mirror", "cherry-pick")) {
   mode <- match.arg(mode)
   zip_internal(zipfile, files, recurse, compression_level, append = FALSE,
                root = root, keep_path = (mode == "mirror"),
                include_directories = include_directories)
 }
 
-#' @rdname zip
+#' @rdname zip_create
 #' @export
-zipr <- function(zipfile, files, recurse = TRUE, compression_level = 9,
-                 include_directories = TRUE, root = ".",
-                 mode = c("cherry-pick", "mirror")) {
+zip_create2 <- function(zipfile, files, recurse = TRUE, compression_level = 9,
+                        include_directories = TRUE, root = ".",
+                        mode = c("cherry-pick", "mirror")) {
   mode <- match.arg(mode)
   zip_internal(zipfile, files, recurse, compression_level, append = FALSE,
                root = root, keep_path = (mode == "mirror"),
                include_directories = include_directories)
 }
 
-#' @rdname zip
+#' @rdname zip_create
 #' @export
 zip_append <- function(zipfile, files, recurse = TRUE,
                        compression_level = 9, include_directories = TRUE,
@@ -158,9 +157,9 @@ zip_append <- function(zipfile, files, recurse = TRUE,
                include_directories = include_directories)
 }
 
-#' @rdname zip
+#' @rdname zip_create
 #' @export
-zipr_append <- function(zipfile, files, recurse = TRUE,
+zip_append2 <- function(zipfile, files, recurse = TRUE,
                         compression_level = 9, include_directories = TRUE,
                         root = ".", mode = c("cherry-pick", "mirror")) {
   mode <- match.arg(mode)
@@ -184,87 +183,4 @@ zip_internal <- function(zipfile, files, recurse, compression_level,
         as.integer(compression_level), append)
 
   invisible(zipfile)
-}
-
-#' List Files in a 'zip' Archive
-#'
-#' @param zipfile Path to an existing ZIP file.
-#' @return A data frame with columns: `filename`, `compressed_size`,
-#'   `uncompressed_size`, `timestamp`, `permissions`.
-#'
-#' @family zip/unzip functions
-#' @export
-zip_list <- function(zipfile) {
-  zipfile <- enc2utf8(normalizePath(zipfile))
-  res <- .Call(c_R_zip_list, zipfile)
-  df <- data.frame(
-    stringsAsFactors = FALSE,
-    filename = res[[1]],
-    compressed_size = res[[2]],
-    uncompressed_size = res[[3]],
-    timestamp = as.POSIXct(res[[4]], tz = "UTC", origin = "1970-01-01")
-  )
-  Encoding(df$filename) <- "UTF-8"
-  df$permissions <- as.octmode(res[[5]])
-  df
-}
-
-#' Uncompress 'zip' Archives
-#'
-#' `unzip()` always restores modification times of the extracted files and
-#' directories.
-#'
-#' @section Permissions:
-#'
-#' If the zip archive stores permissions and was created on Unix,
-#' the permissions will be restored.
-#'
-#' @param zipfile Path to the zip file to uncompress.
-#' @param files Character vector of files to extract from the archive.
-#'   Files within directories can be specified, but they must use a forward
-#'   slash as path separator, as this is what zip files use internally.
-#'   If `NULL`, all files will be extracted.
-#' @param overwrite Whether to overwrite existing files. If `FALSE` and
-#'   a file already exists, then an error is thrown.
-#' @param junkpaths Whether to ignore all directory paths when creating
-#'   files. If `TRUE`, all files will be created in `exdir`.
-#' @param exdir Directory to uncompress the archive to. If it does not
-#'   exist, it will be created.
-#'
-#' @examples
-#' ## temporary directory, to avoid messing up the user's workspace.
-#' dir.create(tmp <- tempfile())
-#' dir.create(file.path(tmp, "mydir"))
-#' cat("first file", file = file.path(tmp, "mydir", "file1"))
-#' cat("second file", file = file.path(tmp, "mydir", "file2"))
-#'
-#' zipfile <- tempfile(fileext = ".zip")
-#' zippr::zip(zipfile, "mydir", root = tmp)
-#'
-#' ## List contents
-#' zip_list(zipfile)
-#'
-#' ## Extract
-#' tmp2 <- tempfile()
-#' unzip(zipfile, exdir = tmp2)
-#' dir(tmp2, recursive = TRUE)
-#' @export
-unzip <- function(zipfile, files = NULL, overwrite = TRUE,
-                      junkpaths = FALSE, exdir = ".") {
-
-  stopifnot(
-    is_string(zipfile),
-    is_character_or_null(files),
-    is_flag(overwrite),
-    is_flag(junkpaths),
-    is_string(exdir))
-
-  zipfile <- enc2utf8(normalizePath(zipfile))
-  if (!is.null(files)) files <- enc2utf8(files)
-  mkdirp(exdir)
-  exdir <- enc2utf8(normalizePath(exdir))
-
-  .Call(c_R_zip_unzip, zipfile, files, overwrite, junkpaths, exdir)
-
-  invisible()
 }
