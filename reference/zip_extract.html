@@ -199,10 +199,10 @@ permissions will be restored.</p>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 5</span><span>
 #&gt;   filename    compressed_size uncompressed_size timestamp           permissions
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fs::path&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fs::perms&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rwxr-xr-x  
-#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>4</span><span> mydir/file3              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>23:28:26</span><span> rwxr-xr-x  
+#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>23:28:28</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>23:28:28</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>4</span><span> mydir/file3              15                10 2021-02-08 </span><span style='color: #555555;'>23:28:26</span><span> rw-rw-rw-  </div><div class='input'>
 <span class='co'>## Extract</span>
 <span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>path_temp</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'>zip_extract</span><span class='op'>(</span><span class='va'>z</span>, exdir <span class='op'>=</span> <span class='va'>tmp</span><span class='op'>)</span>
