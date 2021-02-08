@@ -1,6 +1,6 @@
 Package: zippr
-Title: Cross-Platform 'zip' Compression
-Version: 0.0.0.9000
+Title: Consistent Cross-Platform ZIP Compression
+Version: 0.0.1.9000
 Authors@R: 
     c(person(given = "Kiernan",
              family = "Nicholls",
@@ -16,12 +16,12 @@ Authors@R:
       person(given = "Rich",
              family = "Geldreich",
              role = "aut"))
-Description: Cross-Platform 'zip' Compression Library. A
-    replacement for the 'zip' function, that does not require any
-    additional external tools on any platform. Based on the 'r-lib/zip'
-    package <https://github.com/r-lib/zip> but modified to have consistent
-    function names, better argument positions, and return modern data
-    classes.
+Description: An forked alternative to the 'r-lib/zip' package
+    <https://github.com/r-lib/zip>, a cross-platform compression library
+    that does not require any additional tools on any platform. The
+    changes made in this version aim for consistent function names, better
+    argument position, and more human readable return data using the
+    'tibble' and 'fs' packages.
 License: MIT + file LICENSE
 URL: https:://kiernann.com/zippr,
     https://github.com/kiernann/zippr
