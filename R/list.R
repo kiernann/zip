@@ -17,7 +17,7 @@
 #' @examples
 #' zip_info(zip_example())
 #' zip_ls(zip_example())
-#' @importFrom fs path_norm fs_path fs_bytes fs_perms
+#' @importFrom fs fs_path fs_bytes fs_perms
 #' @export
 zip_info <- function(archive) {
   archive <- enc2utf8(normalizePath(archive))
