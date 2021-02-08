@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compress Files into 'zip' Archives — zip_create • zippr</title>
+<title>Compress files into ZIP archives — zip_create • zippr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Compress Files into 'zip' Archives — zip_create" />
-<meta property="og:description" content="zip_create() creates a new zip archive file." />
+<meta property="og:title" content="Compress files into ZIP archives — zip_create" />
+<meta property="og:description" content="Compared to zip::zip() and utils::zip(), zip_create() takes the path of
+files to include in the archive as the first argument. Append new compressed
+files to an existing archive with zip_append()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">zippr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -119,206 +121,135 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compress Files into 'zip' Archives</h1>
+    <h1>Compress files into ZIP archives</h1>
     <small class="dont-index">Source: <a href='https://github.com/kiernann/zippr/blob/master/R/create.R'><code>R/create.R</code></a></small>
     <div class="hidden name"><code>zip_create.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>zip_create()</code> creates a new zip archive file.</p>
+    <p>Compared to <code>zip::zip()</code> and <code><a href='https://rdrr.io/r/utils/zip.html'>utils::zip()</a></code>, <code>zip_create()</code> takes the path of
+files to include in the archive as the first argument. Append new compressed
+files to an existing archive with <code>zip_append()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>zip_create</span><span class='op'>(</span>
-  <span class='va'>zipfile</span>,
-  <span class='va'>files</span>,
+  <span class='va'>path</span>,
+  <span class='va'>archive</span>,
   recurse <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  compression_level <span class='op'>=</span> <span class='fl'>9</span>,
-  include_directories <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  root <span class='op'>=</span> <span class='st'>"."</span>,
-  mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mirror"</span>, <span class='st'>"cherry-pick"</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'>zip_create2</span><span class='op'>(</span>
-  <span class='va'>zipfile</span>,
-  <span class='va'>files</span>,
-  recurse <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  compression_level <span class='op'>=</span> <span class='fl'>9</span>,
-  include_directories <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  root <span class='op'>=</span> <span class='st'>"."</span>,
-  mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cherry-pick"</span>, <span class='st'>"mirror"</span><span class='op'>)</span>
+  level <span class='op'>=</span> <span class='fl'>9</span>,
+  junk_paths <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  include_dirs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  root <span class='op'>=</span> <span class='st'>"."</span>
 <span class='op'>)</span>
 
 <span class='fu'>zip_append</span><span class='op'>(</span>
-  <span class='va'>zipfile</span>,
-  <span class='va'>files</span>,
+  <span class='va'>path</span>,
+  <span class='va'>archive</span>,
   recurse <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  compression_level <span class='op'>=</span> <span class='fl'>9</span>,
-  include_directories <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  root <span class='op'>=</span> <span class='st'>"."</span>,
-  mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mirror"</span>, <span class='st'>"cherry-pick"</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'>zip_append2</span><span class='op'>(</span>
-  <span class='va'>zipfile</span>,
-  <span class='va'>files</span>,
-  recurse <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  compression_level <span class='op'>=</span> <span class='fl'>9</span>,
-  include_directories <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  root <span class='op'>=</span> <span class='st'>"."</span>,
-  mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cherry-pick"</span>, <span class='st'>"mirror"</span><span class='op'>)</span>
+  level <span class='op'>=</span> <span class='fl'>9</span>,
+  junk_paths <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  include_dirs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  root <span class='op'>=</span> <span class='st'>"."</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>zipfile</th>
-      <td><p>The zip file to create. If the file exists, <code>zip</code> overwrites
-it, but <code>zip_append</code> appends to it.</p></td>
+      <th>path</th>
+      <td><p>Character vector of files to add to the archive.</p></td>
     </tr>
     <tr>
-      <th>files</th>
-      <td><p>List of file to add to the archive. See details below about
-absolute and relative path names.</p></td>
+      <th>archive</th>
+      <td><p>The ZIP file path to create. If the file exists,
+<code>zip_create()</code> overwrites it, but <code>zip_append()</code> appends to it.</p></td>
     </tr>
     <tr>
       <th>recurse</th>
       <td><p>Whether to add the contents of directories recursively.</p></td>
     </tr>
     <tr>
-      <th>compression_level</th>
-      <td><p>A number between 1 and 9. 9 compresses best, but it
-also takes the longest.</p></td>
+      <th>level</th>
+      <td><p>Integer between 1 and 9. Higher compression takes longer.</p></td>
     </tr>
     <tr>
-      <th>include_directories</th>
-      <td><p>Whether to explicitly include directories in the
-archive. Including directories might confuse MS Office when reading docx
-files, so set this to <code>FALSE</code> for creating them.</p></td>
+      <th>junk_paths</th>
+      <td><p>Whether to remove full file path. See "Relative paths"
+below for more. An alternative to the <code>mode</code> argument of <code>zip::zip()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>include_dirs</th>
+      <td><p>Whether to explicitly include directories in the archive.</p></td>
     </tr>
     <tr>
       <th>root</th>
-      <td><p>Change to this working directory before creating the archive.</p></td>
-    </tr>
-    <tr>
-      <th>mode</th>
-      <td><p>Selects how files and directories are stored in the archice. It
-can be <code>"mirror"</code> or <code>"cherry-pick"</code>. See "Relative Paths" below for
-details.</p></td>
+      <td><p>Directory to temporarily change to before creating archive.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The name of the created zip file, invisibly.</p>
+    <p>The name of the created ZIP archive, invisibly.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>zip_append()</code> appends compressed files to an existing 'zip' file.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Relative paths</h3>
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Relative paths</h3>
 
 
-<p><code>zip_create()</code> and <code>zip_append()</code> can run in two different modes: mirror
-mode and cherry picking mode. They handle the specified <code>files</code>
-differently.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Mirror mode</h4>
-
-
-<p>Mirror mode is for creating the zip archive of a directory structure,
-exactly as it is on the disk. The current working directory will
-be the root of the archive, and the paths will be fully kept.
-zip changes the current directory to <code>root</code> before creating the
-archive.</p>
-<p>(Absolute paths are also kept. Note that this might result
-non-portable archives: some zip tools do not handle zip archives that
-contain absolute file names, or file names that start with <code>../</code> or
-<code>./</code>. zip warns you if this should happen.)</p>
-<p>E.g. consider the following directory structure:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>oldwd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='st'>"foo/bar"</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='st'>"foo/bar2"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='st'>"foo2"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"this is file1"</span>, file <span class='op'>=</span> <span class='st'>"foo/bar/file1"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"this is file2"</span>, file <span class='op'>=</span> <span class='st'>"foo/bar/file2"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"this is file3"</span>, file <span class='op'>=</span> <span class='st'>"foo2/file3"</span><span class='op'>)</span>
-<span class='fu'>fs</span><span class='fu'>::</span><span class='fu'><a href='http://fs.r-lib.org/reference/dir_tree.html'>dir_tree</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>oldwd</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>Assuming the current working directory is <code>foo</code>, the following zip
-entries are created by <code>zip</code>:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='st'>"foo"</span><span class='op'>)</span>
-<span class='fu'>zip_create</span><span class='op'>(</span><span class='st'>"../test.zip"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bar/file1"</span>, <span class='st'>"bar2"</span>, <span class='st'>"../foo2"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='st'>"../test.zip"</span><span class='op'>)</span><span class='op'>[</span>, <span class='st'>"filename"</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>oldwd</span><span class='op'>)</span>
-</pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Cherry picking mode</h4>
-
-
-<p>In cherry picking mode, the selected files and directories
-will be at the root of the archive. This mode is handy if you
-want to select a subset of files and directories, possibly from
-different paths and put all of the in the archive, at the top
-level.</p>
-<p>Here is an example with the same directory structure as above:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='st'>"foo"</span><span class='op'>)</span>
-<span class='fu'>zip_create</span><span class='op'>(</span>
-  <span class='st'>"../test2.zip"</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bar/file1"</span>, <span class='st'>"bar2"</span>, <span class='st'>"../foo2"</span><span class='op'>)</span>,
-  mode <span class='op'>=</span> <span class='st'>"cherry-pick"</span>
-<span class='op'>)</span>
-<span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='st'>"../test2.zip"</span><span class='op'>)</span><span class='op'>[</span>, <span class='st'>"filename"</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>oldwd</span><span class='op'>)</span>
-</pre><p></div></p>
-
-
+<p><code>zip_create()</code> and <code>zip_append()</code> both use the <code>junk_paths</code> argument in lieu
+of the <code>mode</code> argument from <code>zip::zip()</code>.</p>
+<p>When <code>junk_paths</code> is set to <code>FALSE</code> (the default), the directory structure of
+included files is preserved; the working directory will temporarily be
+changed to the <code>root</code> argument before creating the archive.</p>
+<p>(Absolute paths are also kept. Note that this might result non-portable
+archives: some zip tools do not handle ZIP archives that contain absolute
+file names, or file names that start with <code>../</code> or <code>./</code>. zippr warns you if
+this should happen.)</p>
+<p>When <code>junk_paths</code> is set to <code>TRUE</code>, the selected files and directories will
+be at the root of the archive. This mode is handy if you want to select a
+subset of files and directories, possibly from different paths and put all of
+the in the archive, at the top level.</p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Permissions:</h3>
 
 
-<p><code>zip_create()</code> (and <code>zip_append()</code>, etc.) add the permissions of the archived
-files and directories to the ZIP archive, on Unix systems. Most zip and unzip
+<p><code>zip_create()</code> (and <code>zip_append()</code>) add the permissions of the archived files
+and directories to the ZIP archive, on Unix systems. Most zip and unzip
 implementations support these, so they will be recovered after extracting the
-archive.</p>
-<p>Note, however that the owner and group (uid and gid) are currently omitted,
-even on Unix.</p>
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a><code>zipr()</code> and <code>zipr_append()</code></h3>
-
-
-<p>These function exist for historical reasons. They are identical to
-<code>zip_create()</code> and <code>zipr_append()</code> with a different default for the <code>mode</code>
-argument.</p>
+archive. Note, however that the owner and group (uid and gid) are currently
+omitted, even on Unix.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Some files to zip up. We will run all this in the R sesion's</span>
-<span class='co'>## temporary directory, to avoid messing up the user's workspace.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmp</span>, <span class='st'>"mydir"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"first file"</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmp</span>, <span class='st'>"mydir"</span>, <span class='st'>"file1"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"second file"</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmp</span>, <span class='st'>"mydir"</span>, <span class='st'>"file2"</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>.old_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://fs.r-lib.org'>fs</a></span><span class='op'>)</span>
+<span class='fu'><a href='http://fs.r-lib.org/reference/create.html'>dir_create</a></span><span class='op'>(</span><span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"first file"</span>, file <span class='op'>=</span> <span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file1"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"second file"</span>, file <span class='op'>=</span> <span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file2"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>zipfile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".zip"</span><span class='op'>)</span>
-<span class='fu'>zip_create</span><span class='op'>(</span><span class='va'>zipfile</span>, <span class='st'>"mydir"</span>, root <span class='op'>=</span> <span class='va'>tmp</span><span class='op'>)</span>
+<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span><span class='op'>(</span>ext <span class='op'>=</span> <span class='st'>"zip"</span><span class='op'>)</span>
+<span class='fu'>zip_create</span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='va'>z</span><span class='op'>)</span>
 
 <span class='co'>## List contents</span>
-<span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='va'>zipfile</span><span class='op'>)</span>
+<span class='fu'><a href='zip_info.html'>zip_info</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 5</span><span>
 #&gt;   filename    compressed_size uncompressed_size timestamp           permissions
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fs::path&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fs::perms&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mydir                     0                 0 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rwxrwxrwx  
-#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-rw-rw-  </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rwxr-xr-x  
+#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  </div><div class='input'>
 <span class='co'>## Add another file</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"third file"</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmp</span>, <span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>zip_append</span><span class='op'>(</span><span class='va'>zipfile</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span>, root <span class='op'>=</span> <span class='va'>tmp</span><span class='op'>)</span>
-<span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='va'>zipfile</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"third file"</span>, file <span class='op'>=</span> <span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>zip_append</span><span class='op'>(</span><span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file3"</span><span class='op'>)</span>, <span class='va'>z</span><span class='op'>)</span>
+<span class='fu'><a href='zip_info.html'>zip_info</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 5</span><span>
 #&gt;   filename    compressed_size uncompressed_size timestamp           permissions
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fs::path&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fs::perms&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mydir                     0                 0 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>4</span><span> mydir/file3              15                10 2021-02-08 </span><span style='color: #555555;'>05:02:06</span><span> rw-------  </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>4</span><span> mydir/file3              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-------  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>.old_wd</span><span class='op'>)</span>
+
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

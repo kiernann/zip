@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get path to zippr example — zip_example • zippr</title>
+<title>List information on files in a ZIP archive — zip_info • zippr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,12 @@
 
 
 
-<meta property="og:title" content="Get path to zippr example — zip_example" />
-<meta property="og:description" content="zippr comes bundled with a sample archive in its inst/extdata directory.
-This function make it easy to access." />
+<meta property="og:title" content="List information on files in a ZIP archive — zip_info" />
+<meta property="og:description" content="zip_info() is similar to the unzip -l command. Compared to
+zip::zip_list(), the data frame is returned as a tibble when available and
+columns use human readable classes like fs::dir_info().
+zip_ls() returns only the names of the files in an archive, like
+fs::dir_ls()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -120,23 +123,49 @@ This function make it easy to access." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get path to zippr example</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kiernann/zippr/blob/master/R/example.R'><code>R/example.R</code></a></small>
-    <div class="hidden name"><code>zip_example.Rd</code></div>
+    <h1>List information on files in a ZIP archive</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kiernann/zippr/blob/master/R/list.R'><code>R/list.R</code></a></small>
+    <div class="hidden name"><code>zip_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>zippr comes bundled with a sample archive in its <code>inst/extdata</code> directory.
-This function make it easy to access.</p>
+    <p><code>zip_info()</code> is similar to the <code>unzip -l</code> command. Compared to
+<code>zip::zip_list()</code>, the data frame is returned as a tibble when available and
+columns use human readable classes like <code><a href='http://fs.r-lib.org/reference/dir_ls.html'>fs::dir_info()</a></code>.</p>
+<p><code>zip_ls()</code> returns only the names of the files in an archive, like
+<code><a href='http://fs.r-lib.org/reference/dir_ls.html'>fs::dir_ls()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zip_example</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>zip_info</span><span class='op'>(</span><span class='va'>archive</span><span class='op'>)</span>
 
+<span class='fu'>zip_ls</span><span class='op'>(</span><span class='va'>archive</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>archive</th>
+      <td><p>Path to an existing ZIP archive.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data.frame with 'fs' class columns.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>USes the <code><a href='https://rdrr.io/r/base/options.html'>options(fs.use_tibble = FALSE)</a></code> to disable tibble printing.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>zip_example</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BB0000;font-weight: bold;'>/Users/runner/work/_temp/Library/zippr/extdata/example.zip</span><span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>zip_info</span><span class='op'>(</span><span class='fu'><a href='zip_example.html'>zip_example</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 5</span><span>
+#&gt;   filename      compressed_size uncompressed_si… timestamp           permissions
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fs::path&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fs::perms&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> example                     0                0 2019-02-23 </span><span style='color: #555555;'>21:48:06</span><span> rwxr-xr-x  
+#&gt; </span><span style='color: #555555;'>2</span><span> example/dir                 0                0 2019-02-23 </span><span style='color: #555555;'>21:49:36</span><span> rwxr-xr-x  
+#&gt; </span><span style='color: #555555;'>3</span><span> example/dir/…              11                6 2019-02-23 </span><span style='color: #555555;'>21:48:24</span><span> rw-r--r--  
+#&gt; </span><span style='color: #555555;'>4</span><span> example/file1              11                6 2019-02-23 </span><span style='color: #555555;'>21:48:28</span><span> rw-r--r--  </div><div class='input'><span class='fu'>zip_ls</span><span class='op'>(</span><span class='fu'><a href='zip_example.html'>zip_example</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; example           example/dir       example/dir/file2 example/file1     </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">zippr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -122,6 +122,18 @@
       <small>Source: <a href='https://github.com/kiernann/zippr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="zippr-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#zippr-development-version" class="anchor"></a>zippr (development version)</h1>
+<ul>
+<li><p>Change package name from ‘zip’ to ‘zippr’.</p></li>
+<li><p>Remove <code>zip_process()</code> and <code>unzip_process()</code> for simplicity.</p></li>
+<li><p>Remove <code>zipr()</code> and <code>zipr_append()</code>. Use a <code>keep_paths</code> logical argument instead of the character <code>mode</code> argument.</p></li>
+<li><p>Rename <code><a href="https://rdrr.io/r/utils/zip.html">zip()</a></code> to <code><a href="../reference/zip_create.html">zip_create()</a></code>. Rename arguments and move paths to first.</p></li>
+<li><p>Rename <code><a href="https://rdrr.io/r/utils/unzip.html">unzip()</a></code> to <code><a href="../reference/zip_extract.html">zip_extract()</a></code>. Return the extracted file paths.</p></li>
+<li><p>Rename <code>zip_list()</code> to <code><a href="../reference/zip_info.html">zip_info()</a></code> and add <code><a href="../reference/zip_info.html">zip_ls()</a></code> for file names.</p></li>
+</ul>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

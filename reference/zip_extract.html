@@ -81,7 +81,7 @@ directories." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">zippr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@ directories.</p>
   <span class='va'>zipfile</span>,
   files <span class='op'>=</span> <span class='cn'>NULL</span>,
   overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  junkpaths <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  junk_paths <span class='op'>=</span> <span class='cn'>FALSE</span>,
   exdir <span class='op'>=</span> <span class='st'>"."</span>
 <span class='op'>)</span></pre>
 
@@ -158,7 +158,7 @@ If <code>NULL</code> (default), all files will be extracted.</p></td>
 a file already exists, then an error is thrown.</p></td>
     </tr>
     <tr>
-      <th>junkpaths</th>
+      <th>junk_paths</th>
       <td><p>Whether to ignore all directory paths when creating
 files. If <code>TRUE</code>, all files will be extracted to the top level of <code>exdir</code>.</p></td>
     </tr>
@@ -173,7 +173,7 @@ exist, it will be created.</p></td>
 
     <p>An <code><a href='http://fs.r-lib.org/reference/fs_path.html'>fs::fs_path()</a></code> character vecttor of extracted files, invisibly.</p>
 <p>This is like the "internal" method of <code><a href='https://rdrr.io/r/utils/unzip.html'>utils::unzip()</a></code> and unlike
-<code>zip::unzip()</code> (See r-lib/zip#35). The <code><a href='zip_list.html'>zip_list()</a></code> C function is called
+<code>zip::unzip()</code> (See r-lib/zip#35). The <code><a href='zip_info.html'>zip_info()</a></code> C internal is called
 separately to get file names, which are not yet returned from the C internal
 used for extraction.</p>
     <h2 class="hasAnchor" id="permissions"><a class="anchor" href="#permissions"></a>Permissions</h2>
@@ -192,21 +192,22 @@ permissions will be restored.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"second file"</span>, file <span class='op'>=</span> <span class='fu'><a href='http://fs.r-lib.org/reference/path.html'>path</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='st'>"file2"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span><span class='op'>(</span>ext <span class='op'>=</span> <span class='st'>"zip"</span><span class='op'>)</span>
-<span class='fu'><a href='zip_create.html'>zip_create</a></span><span class='op'>(</span><span class='va'>z</span>, files <span class='op'>=</span> <span class='st'>"mydir"</span><span class='op'>)</span>
+<span class='fu'><a href='zip_create.html'>zip_create</a></span><span class='op'>(</span><span class='st'>"mydir"</span>, <span class='va'>z</span><span class='op'>)</span>
 
 <span class='co'>## List contents</span>
-<span class='fu'><a href='zip_list.html'>zip_list</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 5</span><span>
+<span class='fu'><a href='zip_info.html'>zip_info</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 5</span><span>
 #&gt;   filename    compressed_size uncompressed_size timestamp           permissions
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fs::path&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;fs::bytes&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;fs::perms&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>05:02:08</span><span> rwxr-xr-x  
-#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>05:02:08</span><span> rw-rw-rw-  
-#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>05:02:08</span><span> rw-rw-rw-  </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #0000BB;font-weight: bold;'>mydir</span><span>                     0                 0 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rwxr-xr-x  
+#&gt; </span><span style='color: #555555;'>2</span><span> mydir/file1              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>3</span><span> mydir/file2              16                11 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  
+#&gt; </span><span style='color: #555555;'>4</span><span> mydir/file3              15                10 2021-02-08 </span><span style='color: #555555;'>21:57:10</span><span> rw-rw-rw-  </div><div class='input'>
 <span class='co'>## Extract</span>
 <span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>path_temp</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'>zip_extract</span><span class='op'>(</span><span class='va'>z</span>, exdir <span class='op'>=</span> <span class='va'>tmp</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>.old_wd</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>.old_wd</span><span class='op'>)</span>
 
 </div></span></pre>
   </div>
