@@ -13,7 +13,7 @@
 #' @importFrom fs path_norm fs_path fs_bytes fs_perms
 #' @export
 zip_list <- function(zipfile) {
-  zipfile <- fs::path_norm(zipfile)
+  zipfile <- enc2utf8(normalizePath(zipfile))
   res <- .Call(c_R_zip_list, zipfile)
   dat <- data.frame(
     stringsAsFactors = FALSE,
