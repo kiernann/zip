@@ -1,6 +1,3 @@
-#' @useDynLib zippr, .registration = TRUE, .fixes = "c_"
-NULL
-
 #' Compress Files into 'zip' Archives
 #'
 #' `zip_create()` creates a new zip archive file.
@@ -9,70 +6,22 @@ NULL
 #'
 #' ## Relative paths
 #'
-#' `zip_create()` and `zip_append()` can run in two different modes: mirror
-#' mode and cherry picking mode. They handle the specified `files`
-#' differently.
+#' `zip_create()` and `zip_append()` both use the `junk_paths` argument in lieu
+#' of the `mode` argument from [zip::zip()].
 #'
-#' ### Mirror mode
+#' When `junk_paths` is set to `FALSE` (the default), the directory structure of
+#' included files is preserved; the working directory will temporarily be
+#' changed to the `root` argument before creating the archive.
 #'
-#' Mirror mode is for creating the zip archive of a directory structure,
-#' exactly as it is on the disk. The current working directory will
-#' be the root of the archive, and the paths will be fully kept.
-#' zip changes the current directory to `root` before creating the
-#' archive.
+#' (Absolute paths are also kept. Note that this might result non-portable
+#' archives: some zip tools do not handle ZIP archives that contain absolute
+#' file names, or file names that start with `../` or `./`. zippr warns you if
+#' this should happen.)
 #'
-#' (Absolute paths are also kept. Note that this might result
-#' non-portable archives: some zip tools do not handle zip archives that
-#' contain absolute file names, or file names that start with `../` or
-#' `./`. zip warns you if this should happen.)
-#'
-#' E.g. consider the following directory structure:
-#'
-#' ``` r
-#' dir.create(tmp <- tempfile())
-#' oldwd <- getwd()
-#' setwd(tmp)
-#' dir.create("foo/bar", recursive = TRUE)
-#' dir.create("foo/bar2")
-#' dir.create("foo2")
-#' cat("this is file1", file = "foo/bar/file1")
-#' cat("this is file2", file = "foo/bar/file2")
-#' cat("this is file3", file = "foo2/file3")
-#' fs::dir_tree(tmp)
-#' setwd(oldwd)
-#' ```
-#'
-#' Assuming the current working directory is `foo`, the following zip
-#' entries are created by `zip`:
-#' ``` r
-#' setwd(tmp)
-#' setwd("foo")
-#' zip_create("../test.zip", c("bar/file1", "bar2", "../foo2"))
-#' zip_list("../test.zip")[, "filename", drop = FALSE]
-#' setwd(oldwd)
-#' ```
-#'
-#' ### Cherry picking mode
-#'
-#' In cherry picking mode, the selected files and directories
-#' will be at the root of the archive. This mode is handy if you
-#' want to select a subset of files and directories, possibly from
-#' different paths and put all of the in the archive, at the top
-#' level.
-#'
-#' Here is an example with the same directory structure as above:
-#'
-#' ``` r
-#' setwd(tmp)
-#' setwd("foo")
-#' zip_create(
-#'   "../test2.zip",
-#'   c("bar/file1", "bar2", "../foo2"),
-#'   mode = "cherry-pick"
-#')
-#' zip_list("../test2.zip")[, "filename", drop = FALSE]
-#' setwd(oldwd)
-#' ```
+#' When `junk_paths` is set to `TRUE`, the selected files and directories will
+#' be at the root of the archive. This mode is handy if you want to select a
+#' subset of files and directories, possibly from different paths and put all of
+#' the in the archive, at the top level.
 #'
 #' ## Permissions:
 #'
