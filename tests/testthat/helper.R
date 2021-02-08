@@ -90,7 +90,7 @@ make_a_zip <- function(mtime = Sys.time(), envir = parent.frame(),
   Sys.setFileTime(tmp, mtime)
 
   zip <- test_temp_file(".zip", envir = envir)
-  zipr(zip, tmp, include_directories = include_directories)
+  zip_create2(zip, tmp, include_directories = include_directories)
   list(zip = zip, ex = tmp)
 }
 

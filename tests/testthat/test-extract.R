@@ -3,7 +3,7 @@ test_that("can unzip all", {
   z <- make_a_zip()
 
   tmp2 <- test_temp_dir()
-  zippr::unzip(z$zip, exdir = tmp2)
+  zip_extract(z$zip, exdir = tmp2)
 
   expect_true(file.exists(file.path(tmp2, basename(z$ex), "file1")))
   expect_true(file.exists(file.path(tmp2, basename(z$ex), "dir")))
@@ -11,7 +11,9 @@ test_that("can unzip all", {
 
   expect_equal(readLines(file.path(tmp2, basename(z$ex), "file1")), "file1")
   expect_equal(
-    readLines(file.path(tmp2, basename(z$ex), "dir", "file2")), "file2")
+    object = readLines(file.path(tmp2, basename(z$ex), "dir", "file2")),
+    expected = "file2"
+  )
 })
 
 test_that("unzip creates exdir if needed", {
@@ -19,7 +21,7 @@ test_that("unzip creates exdir if needed", {
 
   tmp2 <- test_temp_dir(create = FALSE)
   expect_false(file.exists(tmp2))
-  zippr::unzip(z$zip, exdir = tmp2)
+  zip_extract(z$zip, exdir = tmp2)
 
   expect_true(file.exists(tmp2))
 
@@ -37,13 +39,13 @@ test_that("unzip certain files only", {
 
   ## No files
   tmp2 <- test_temp_dir()
-  zippr::unzip(z$zip, character(), exdir = tmp2)
+  zip_extract(z$zip, character(), exdir = tmp2)
   expect_true(file.exists(tmp2))
   expect_equal(dir(tmp2), character())
 
   ## File in directory
   tmp3 <- test_temp_dir()
-  zippr::unzip(z$zip, paste0(basename(z$ex), "/", "file1"), exdir = tmp3)
+  zip_extract(z$zip, paste0(basename(z$ex), "/", "file1"), exdir = tmp3)
   expect_true(file.exists(tmp3))
   expect_true(file.exists(file.path(tmp3, basename(z$ex), "file1")))
   expect_false(file.exists(file.path(tmp3, basename(z$ex), "dir")))
@@ -53,23 +55,23 @@ test_that("unzip certain files only", {
   f <- test_temp_file()
   cat("foobar\n", file = f)
   zip <- test_temp_file(".zip")
-  zipr(zip, f)
+  zip_create2(zip, f)
 
   tmp4 <- test_temp_dir()
-  zippr::unzip(zip, paste0(basename(f)), exdir = tmp4)
+  zip_extract(zip, paste0(basename(f)), exdir = tmp4)
   expect_true(file.exists(tmp4))
   expect_equal(dir(tmp4), basename(f))
   expect_equal(readLines(file.path(tmp4, basename(f))), "foobar")
 
   ## Directory only
   tmp5 <- test_temp_dir()
-  zippr::unzip(z$zip, paste0(basename(z$ex), "/dir/"), exdir = tmp5)
+  zip_extract(z$zip, paste0(basename(z$ex), "/dir/"), exdir = tmp5)
   expect_true(file.exists(tmp5))
   expect_true(file.exists(file.path(tmp5, basename(z$ex), "dir")))
 
   ## Files and dirs
   tmp6 <- test_temp_dir()
-  zippr::unzip(z$zip, paste0(basename(z$ex), c("/dir/file2", "/file1")),
+  zip_extract(z$zip, paste0(basename(z$ex), c("/dir/file2", "/file1")),
             exdir = tmp6)
 
   expect_true(file.exists(file.path(tmp6, basename(z$ex), "file1")))
@@ -91,7 +93,7 @@ test_that("unzip sets mtime correctly", {
   expect_true(all(abs(zip_list(z$zip)$timestamp - mtime) < 3))
 
   tmp2 <- test_temp_dir()
-  zippr::unzip(z$zip, exdir = tmp2)
+  zip_extract(z$zip, exdir = tmp2)
 
   ok <- function(...) {
     t <- file.info(file.path(tmp2, basename(z$ex), ...))$mtime
@@ -108,17 +110,17 @@ test_that("unzip sets mtime correctly", {
 test_that("overwrite is FALSE", {
   z <- make_a_zip()
   tmp <- test_temp_dir()
-  zippr::unzip(z$zip, exdir = tmp)
-  zippr::unzip(z$zip, exdir = tmp)
+  zip_extract(z$zip, exdir = tmp)
+  zip_extract(z$zip, exdir = tmp)
   expect_error(
-    zippr::unzip(z$zip, overwrite = FALSE, exdir = tmp),
+    zip_extract(z$zip, overwrite = FALSE, exdir = tmp),
     "Not overwriting")
 })
 
 test_that("junkpaths is TRUE", {
   z <- make_a_zip()
   tmp <- test_temp_dir()
-  zippr::unzip(z$zip, exdir = tmp, junkpaths = TRUE)
+  zip_extract(z$zip, exdir = tmp, junkpaths = TRUE)
 
   expect_true(file.exists(file.path(tmp, "file1")))
   expect_true(file.exists(file.path(tmp, "file2")))
@@ -150,10 +152,10 @@ test_that("permissions as kept on Unix", {
   Sys.chmod(f, "0777",  FALSE)
 
   zip <- test_temp_file(".zip", create = FALSE)
-  zipr(zip, tmp)
+  zip_create2(zip, tmp)
 
   tmp2 <- test_temp_dir()
-  zippr::unzip(zip, exdir = tmp2)
+  zip_extract(zip, exdir = tmp2)
 
   check_perm <- function(mode, ...) {
     f <- file.path(tmp2, ...)
