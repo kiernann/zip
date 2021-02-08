@@ -15,7 +15,7 @@
 #'   If `NULL` (default), all files will be extracted.
 #' @param overwrite Whether to overwrite existing files. If `FALSE` and
 #'   a file already exists, then an error is thrown.
-#' @param junkpaths Whether to ignore all directory paths when creating
+#' @param junk_paths Whether to ignore all directory paths when creating
 #'   files. If `TRUE`, all files will be extracted to the top level of `exdir`.
 #' @param exdir Directory to uncompress the archive to. If it does not
 #'   exist, it will be created.
@@ -49,13 +49,13 @@
 #' @importFrom fs dir_create path_real
 #' @export
 zip_extract <- function(zipfile, files = NULL, overwrite = TRUE,
-                        junkpaths = FALSE, exdir = ".") {
+                        junk_paths = FALSE, exdir = ".") {
 
   stopifnot(
     is_string(zipfile),
     is_character_or_null(files),
     is_flag(overwrite),
-    is_flag(junkpaths),
+    is_flag(junk_paths),
     is_string(exdir))
 
   zipfile <- fs::path_real(zipfile)
@@ -70,9 +70,9 @@ zip_extract <- function(zipfile, files = NULL, overwrite = TRUE,
 
   exdir <- fs::path_real(fs::dir_create(exdir))
 
-  .Call(c_R_zip_unzip, zipfile, files, overwrite, junkpaths, exdir)
+  .Call(c_R_zip_unzip, zipfile, files, overwrite, junk_paths, exdir)
 
-  if (junkpaths) {
+  if (junk_paths) {
     files2 <- basename(files2)
   }
   invisible(fs::path(exdir, files2))

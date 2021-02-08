@@ -8,7 +8,7 @@ zip_extract(
   zipfile,
   files = NULL,
   overwrite = TRUE,
-  junkpaths = FALSE,
+  junk_paths = FALSE,
   exdir = "."
 )
 }
@@ -23,7 +23,7 @@ If \code{NULL} (default), all files will be extracted.}
 \item{overwrite}{Whether to overwrite existing files. If \code{FALSE} and
 a file already exists, then an error is thrown.}
 
-\item{junkpaths}{Whether to ignore all directory paths when creating
+\item{junk_paths}{Whether to ignore all directory paths when creating
 files. If \code{TRUE}, all files will be extracted to the top level of \code{exdir}.}
 
 \item{exdir}{Directory to uncompress the archive to. If it does not
