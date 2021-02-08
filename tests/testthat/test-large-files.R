@@ -18,7 +18,7 @@ test_that("can compress / uncompress large files", {
 
   zipr(zipfile, file1, compression_level = 1)
   expect_true(file.exists(zipfile))
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(list$filename, "file1")
   expect_equal(list$uncompressed_size, size)
 
@@ -41,7 +41,7 @@ test_that("can compress / uncompress many files", {
   zip <- test_temp_file(".zip")
   zipr(zip, tmp)
 
-  l <- zip_list(zip)
+  l <- zip_info(zip)
   expect_equal(nrow(l), 70001)
 
   tmp2 <- test_temp_dir()

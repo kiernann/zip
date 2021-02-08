@@ -56,7 +56,7 @@ cat("first file",  file = path("mydir", "file1"))
 cat("second file", file = path("mydir", "file2"))
 
 z <- file_temp(ext = "zip")
-zip_create(z, files = "mydir")
+zip_create("mydir", z)
 
 ## List contents
 zip_info(z)

@@ -16,7 +16,7 @@ test_that("can compress single directory", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
@@ -39,7 +39,7 @@ test_that("can compress single file", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(list$filename, basename(tmp))
 })
 
@@ -59,7 +59,7 @@ test_that("can compress multiple files", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(list$filename, basename(c(tmp1, tmp2)))
 })
 
@@ -83,7 +83,7 @@ test_that("can compress multiple directories", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp1), file.path(basename(tmp1), c("file1", "file2")),
@@ -124,7 +124,7 @@ test_that("can compress files and directories", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(file1), basename(tmp),
@@ -155,7 +155,7 @@ test_that("warning for directories in non-recursive mode", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(file1), basename(file2))
@@ -185,10 +185,10 @@ test_that("compression level is used", {
   expect_true(file.exists(zipfile1))
   expect_true(file.exists(zipfile2))
 
-  list <- zip_list(zipfile1)
+  list <- zip_info(zipfile1)
   expect_equal(list$filename, basename(file))
 
-  list <- zip_list(zipfile2)
+  list <- zip_info(zipfile2)
   expect_equal(list$filename, basename(file))
 
   expect_true(file.info(zipfile1)$size <= file.info(zipfile2)$size)
@@ -211,7 +211,7 @@ test_that("can append a directory to an archive", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
@@ -226,7 +226,7 @@ test_that("can append a directory to an archive", {
     zip_append(basename(tmp2), zipfile)
   )
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
@@ -251,7 +251,7 @@ test_that("can append a file to an archive", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
@@ -264,7 +264,7 @@ test_that("can append a file to an archive", {
     zip_append(basename(file1), zipfile)
   )
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
@@ -289,7 +289,7 @@ test_that("can append files and directories to an archive", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")))
@@ -305,7 +305,7 @@ test_that("can append files and directories to an archive", {
     zip_append(basename(c(file1, tmp2)), zipfile)
   )
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(basename(tmp), file.path(basename(tmp), c("file1", "file2")),
@@ -330,7 +330,7 @@ test_that("empty directories are archived as directories", {
   )
 
   bt <- basename(tmp)
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     c(bt, paste0(bt, "/foo"), paste0(bt, "/foo/bar"),
@@ -399,14 +399,14 @@ test_that("example", {
       tz <- c(file.path("bar", "file1"), "bar2", file.path("..", "foo2"))
       expect_warning(zip_create(tz, "x.zip"))
       expect_equal(
-        zip_list("x.zip")$filename,
+        zip_ls("x.zip"),
         c(file.path("bar", "file1"), "bar2", file.path("bar2", "file2"),
           paste0("../foo2"), file.path("..", "foo2", "file3"))
       )
 
       zip_create(tz, "xr.zip", junk_paths = TRUE)
       expect_equal(
-        zip_list("xr.zip")$filename,
+        zip_ls("xr.zip"),
         c("file1", "bar2", file.path("bar2", "file2"), "foo2",
           file.path("foo2", "file3"))
       )
@@ -430,7 +430,7 @@ test_that("can omit directories", {
 
   expect_true(file.exists(zipfile))
 
-  list <- zip_list(zipfile)
+  list <- zip_info(zipfile)
   expect_equal(
     list$filename,
     file.path(basename(tmp), c("file1", "file2"))

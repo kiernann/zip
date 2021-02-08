@@ -95,7 +95,7 @@ zip_info(z)
 
 ## Add another file
 cat("third file", file = path("mydir", "file3"))
-path("mydir", "file3") \%>\% zip_append(z)
+zip_append(path("mydir", "file3"), z)
 zip_info(z)
 \dontshow{setwd(.old_wd)}
 

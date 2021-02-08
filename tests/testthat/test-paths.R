@@ -8,8 +8,8 @@ test_that("base path with spaces", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zip_create("zip1.zip", c("dir1", "dir2"), mode = "mirror")
-  l <- zip_list("zip1.zip")
+  zip_create(c("dir1", "dir2"), "zip1.zip")
+  l <- zip_info("zip1.zip")
   expect_equal(l$filename, c("dir1", "dir1/file1", "dir2", "dir2/file2"))
 
   dir.create("ex1")
@@ -19,8 +19,8 @@ test_that("base path with spaces", {
     c("dir1/file1", "dir2/file2")
   )
 
-  zip_create("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
-  l2 <- zip_list("zip2.zip")
+  zip_create(c("dir1", "dir2/file2"), "zip2.zip", junk_paths = TRUE)
+  l2 <- zip_info("zip2.zip")
   expect_equal(l2$filename, c("dir1", "dir1/file1", "file2"))
 
   dir.create("ex2")
@@ -36,8 +36,8 @@ test_that("uncompressed path with spaces", {
   root <- "root 1 2"
   dir.create(root)
   cat("contents\n", file = file.path(root, "file 3 4"))
-  zip_create("zip1.zip", root, mode = "mirror")
-  l <- zip_list("zip1.zip")
+  zip_create(root, "zip1.zip")
+  l <- zip_info("zip1.zip")
   expect_equal(
     l$filename,
     c(root, file.path(root, "file 3 4", fsep = "/"))
@@ -50,8 +50,8 @@ test_that("uncompressed path with spaces", {
     file.path(root, "file 3 4", fsep = "/")
   )
 
-  zip_create("zip2.zip", root, mode = "cherry-pick")
-  l2 <- zip_list("zip2.zip")
+  zip_create(root, "zip2.zip", junk_paths = TRUE)
+  l2 <- zip_info("zip2.zip")
 
   dir.create("ex2")
   zip_extract("zip2.zip", exdir = "ex2")
@@ -74,8 +74,8 @@ test_that("base path with non-ASCII characters", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zip_create("zip1.zip", c("dir1", "dir2"), mode = "mirror")
-  l <- zip_list("zip1.zip")
+  zip_create(c("dir1", "dir2"), "zip1.zip")
+  l <- zip_info("zip1.zip")
   expect_equal(l$filename, c("dir1/", "dir1/file1", "dir2/", "dir2/file2"))
 
   dir.create("ex1")
@@ -85,8 +85,8 @@ test_that("base path with non-ASCII characters", {
     c("dir1/file1", "dir2/file2")
   )
 
-  zip_create("zip2.zip", c("dir1", "dir2/file2"), mode = "cherry-pick")
-  l2 <- zip_list("zip2.zip")
+  zip_create(c("dir1", "dir2/file2"), "zip2.zip", junk_paths = TRUE)
+  l2 <- zip_info("zip2.zip")
   expect_equal(l2$filename, c("dir1/", "dir1/file1", "file2"))
 
   dir.create("ex2")
@@ -106,8 +106,8 @@ test_that("uncompressed path with non-ASCII characters", {
   ufile <- enc2native("ufile\u00fa\u00e1")
   dir.create(root)
   cat("contents\n", file = file.path(root, ufile))
-  zip("zip1.zip", root, mode = "mirror")
-  l <- zip_list("zip1.zip")
+  zip("zip1.zip", root)
+  l <- zip_info("zip1.zip")
   expect_equal(
     l$filename,
     c(paste0(root, "/"), file.path(root, ufile, fsep = "/"))
@@ -121,8 +121,8 @@ test_that("uncompressed path with non-ASCII characters", {
     file.path(root, ufile, fsep = "/")
   )
 
-  zip("zip2.zip", root, mode = "cherry-pick")
-  l2 <- zip_list("zip2.zip")
+  zip_create(root, "zip2.zip", junk_paths = TRUE)
+  l2 <- zip_info("zip2.zip")
 
   dir.create("ex2")
   zip_extract("zip2.zip", exdir = "ex2")
@@ -139,8 +139,8 @@ test_that("zip file with spaces", {
   cat("file1", file = "dir1/file 1")
   cat("file2", file = "dir 2/file2")
 
-  zip_create("zip1.zip", c("dir1", "dir 2"), mode = "mirror")
-  l <- zip_list("zip1.zip")
+  zip_create(c("dir1", "dir 2"), "zip1.zip")
+  l <- zip_info("zip1.zip")
   expect_equal(l$filename, c("dir1", "dir1/file 1", "dir 2", "dir 2/file2"))
 
   dir.create("ex1")
@@ -150,8 +150,8 @@ test_that("zip file with spaces", {
     sort(c("dir1/file 1", "dir 2/file2"))
   )
 
-  zip_create("zip2.zip", c("dir1", "dir 2/file2"), mode = "cherry-pick")
-  l2 <- zip_list("zip2.zip")
+  zip_create(c("dir1", "dir 2/file2"), "zip2.zip", junk_paths = TRUE)
+  l2 <- zip_info("zip2.zip")
   expect_equal(l2$filename, c("dir1", "dir1/file 1", "file2"))
 
   dir.create("ex2")
@@ -170,8 +170,8 @@ test_that("zip file with non-ASCII characters", {
   cat("file1", file = "dir1/file1")
   cat("file2", file = "dir2/file2")
 
-  zip_create(zipfile, c("dir1", "dir2"), mode = "mirror")
-  l <- zip_list(zipfile)
+  zip_create(c("dir1", "dir2"), zipfile)
+  l <- zip_info(zipfile)
   expect_equal(l$filename, c("dir1", "dir1/file1", "dir2", "dir2/file2"))
 
   dir.create("ex1")
@@ -185,8 +185,8 @@ test_that("zip file with non-ASCII characters", {
 
   # ----------------------------------------------------------------
 
-  zip_create(zipfile, c("dir1", "dir2/file2"), mode = "cherry-pick")
-  l2 <- zip_list(zipfile)
+  zip_create(c("dir1", "dir2/file2"), zipfile, junk_paths = TRUE)
+  l2 <- zip_info(zipfile)
   expect_equal(l2$filename, c("dir1", "dir1/file1", "file2"))
 
   dir.create("ex2")

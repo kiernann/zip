@@ -55,7 +55,7 @@ test_that("unzip certain files only", {
   f <- test_temp_file()
   cat("foobar\n", file = f)
   zip <- test_temp_file(".zip")
-  zip_create2(zip, f)
+  zip_create(f, zip, junk_paths = TRUE)
 
   tmp4 <- test_temp_dir()
   zip_extract(zip, paste0(basename(f)), exdir = tmp4)
@@ -90,7 +90,7 @@ test_that("unzip sets mtime correctly", {
 
   ## Some Windows file systems have a 2-second precision
   three <- as.difftime(3, units = "secs")
-  expect_true(all(abs(zip_list(z$zip)$timestamp - mtime) < 3))
+  expect_true(all(abs(zip_info(z$zip)$timestamp - mtime) < 3))
 
   tmp2 <- test_temp_dir()
   zip_extract(z$zip, exdir = tmp2)
@@ -152,7 +152,7 @@ test_that("permissions as kept on Unix", {
   Sys.chmod(f, "0777",  FALSE)
 
   zip <- test_temp_file(".zip", create = FALSE)
-  zip_create2(zip, tmp)
+  zip_create(tmp, zip, junk_paths = TRUE)
 
   tmp2 <- test_temp_dir()
   zip_extract(zip, exdir = tmp2)
