@@ -13,7 +13,6 @@
 #'
 #' @param archive Path to an existing ZIP archive.
 #' @return A data.frame with 'fs' class columns.
-#' @family zip/unzip functions
 #' @examples
 #' zip_info(zip_example())
 #' zip_ls(zip_example())

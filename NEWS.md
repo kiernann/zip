@@ -12,3 +12,5 @@
 * Rename `unzip()` to `zip_extract()`. Return the extracted file paths.
 
 * Rename `zip_list()` to `zip_info()` and add `zip_ls()` for file names.
+
+* Add `zip_size()` and `zip_ratio()`.

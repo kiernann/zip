@@ -30,4 +30,3 @@ USes the \code{options(fs.use_tibble = FALSE)} to disable tibble printing.
 zip_info(zip_example())
 zip_ls(zip_example())
 }
-\concept{zip/unzip functions}
