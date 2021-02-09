@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • zippr</title>
+<title>Compressed file sizes and ratios — zip_size • zippr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Compressed file sizes and ratios — zip_size" />
+<meta property="og:description" content="zip_size() returns the uncompressed size of files within an archive.
+zip_ratio() returns the division of uncompressed size by compressed size." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +68,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -116,72 +118,45 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Compressed file sizes and ratios</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kiernann/zippr/blob/master/R/size.R'><code>R/size.R</code></a></small>
+    <div class="hidden name"><code>zip_size.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code>zip_size()</code> returns the uncompressed size of files within an archive.</p>
+<p><code>zip_ratio()</code> returns the division of uncompressed size by compressed size.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>zip_size</span><span class='op'>(</span><span class='va'>archive</span>, sum <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="zip_create.html">zip_create()</a></code> <code><a href="zip_create.html">zip_append()</a></code> </p>
-        </td>
-        <td><p>Compress files into ZIP archives</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zip_example.html">zip_example()</a></code> </p>
-        </td>
-        <td><p>Get path to zippr example</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zip_extract.html">zip_extract()</a></code> </p>
-        </td>
-        <td><p>Uncompress 'zip' Archives</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zip_info.html">zip_info()</a></code> <code><a href="zip_info.html">zip_ls()</a></code> </p>
-        </td>
-        <td><p>List information on files in a ZIP archive</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zip_size.html">zip_size()</a></code> <code><a href="zip_size.html">zip_ratio()</a></code> </p>
-        </td>
-        <td><p>Compressed file sizes and ratios</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zippr.html">zippr</a></code> </p>
-        </td>
-        <td><p>zippr: Cross-Platform 'zip' Compression</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>zip_ratio</span><span class='op'>(</span><span class='va'>archive</span>, sum <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>archive</th>
+      <td><p>Path to an existing ZIP archive.</p></td>
+    </tr>
+    <tr>
+      <th>sum</th>
+      <td><p>Whether to return a single size or ratio from the sum of sizes.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A named numeric vector of compression ratios or file sizes.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>zip_size</span><span class='op'>(</span><span class='fu'><a href='zip_example.html'>zip_example</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 0 0 6 6</div><div class='input'><span class='fu'>zip_ratio</span><span class='op'>(</span><span class='fu'><a href='zip_example.html'>zip_example</a></span><span class='op'>(</span><span class='op'>)</span>, sum <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /Users/runner/work/_temp/Library/zippr/extdata/example.zip 
+#&gt;                                                  0.5454545 </div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

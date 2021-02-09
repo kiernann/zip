@@ -90,9 +90,9 @@
 <p>The goal of zippr is to provide an alternative to the <a href="https://github.com/r-lib/zip">zip</a> package built on <a href="https://github.com/richgel999/miniz">miniz</a>, a cross-platform, lossless, high performance data compression library. The exact functionality of this package is still extremely fluid.</p>
 <p>Three main types of changes are being made:</p>
 <ol>
-<li>Consistently rename <em>all</em> functions with <code>zip_*</code> to avoid masking <code><a href="https://rdrr.io/r/utils/zip.html">utils::zip()</a></code> and <code><a href="https://rdrr.io/r/utils/unzip.html">utils::unzip()</a></code>.</li>
-<li>Arrange arguments in a consistent order, accepting the primary file paths as the first argument for easy piping.</li>
-<li>Return more data (sometimes invisibly) with <a href="https://github.com/tidyverse/tibble/">tibble</a> and <a href="https://github.com/r-lib/fs/">fs</a> classes.</li>
+<li>Consistently rename <em>all</em> functions with <code>zip_*</code> to avoid masking <code><a href="https://rdrr.io/r/utils/zip.html">utils::zip()</a></code> and <code><a href="https://rdrr.io/r/utils/unzip.html">utils::unzip()</a></code>. Match to names like <code><a href="http://fs.r-lib.org/reference/dir_ls.html">fs::dir_info()</a></code>.</li>
+<li>Arrange arguments in a consistent order, accepting the primary file paths as the first argument for easy piping with <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>.</li>
+<li>Return more data (sometimes invisibly) with human-readable <a href="https://github.com/tidyverse/tibble/">tibble</a> data frames and <a href="https://github.com/r-lib/fs/">fs</a> class vectors.</li>
 </ol>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -101,11 +101,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"kiernann/zippr"</span><span class="op">)</span></code></pre></div>
+<p>Install the release version of zip from <a href="https://cran.r-project.org/package=zip">CRAN</a> if needed.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"zip"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https:://kiernann.com/zippr">zippr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://fs.r-lib.org">fs</a></span><span class="op">)</span></code></pre></div>
@@ -114,57 +117,66 @@
 <a href="#compressing" class="anchor"></a>Compressing</h3>
 <p><code><a href="reference/zip_create.html">zip_create()</a></code> takes uncompressed files and creates a compressed ZIP archive. Simply supply all directories and files that you want to include in the archive. Arguments have been arranged to accept piped paths.</p>
 <p>It makes sense to change to the top-level directory of the files before archiving them, so that the files are stored using a relative path name.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span><span class="op">(</span><span class="st">"R"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="co"># pipe paths into zip</span>
   <span class="fu"><a href="reference/zip_create.html">zip_create</a></span><span class="op">(</span><span class="st">"sources.zip"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="http://fs.r-lib.org/reference/file_info.html">file_info</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 1 x 5</span>
 <span class="co">#&gt;   path        type         size permissions modification_time  </span>
 <span class="co">#&gt;   &lt;fs::path&gt;  &lt;fct&gt; &lt;fs::bytes&gt; &lt;fs::perms&gt; &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 sources.zip file        5.71K rw-rw-r--   2021-02-08 16:06:11</span></code></pre></div>
+<span class="co">#&gt; 1 sources.zip file        6.25K rw-rw-r--   2021-02-08 20:22:05</span></code></pre></div>
 <p>Directories are added recursively by default.</p>
 <p><code><a href="reference/zip_create.html">zip_append()</a></code> is similar to <code><a href="reference/zip_create.html">zip_create()</a></code>, but it appends files to an existing ZIP archive.</p>
 </div>
 <div id="listing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#listing" class="anchor"></a>Listing</h3>
-<p><code>zip_list()</code> lists files in a ZIP archive. It returns a tibble with human readable <a href="https://github.com/r-lib/fs/">fs</a> columns. To get just the file <em>names</em>, use <code><a href="reference/zip_info.html">zip_ls()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p><code><a href="reference/zip_info.html">zip_info()</a></code> lists files in a ZIP archive. It returns a data frame with human-readable <a href="https://github.com/r-lib/fs/">fs</a> columns.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/zip_info.html">zip_info</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
+<span class="co">#&gt; # A tibble: 8 x 5</span>
 <span class="co">#&gt;   filename       compressed_size uncompressed_size timestamp           permissions</span>
 <span class="co">#&gt;   &lt;fs::path&gt;         &lt;fs::bytes&gt;       &lt;fs::bytes&gt; &lt;dttm&gt;              &lt;fs::perms&gt;</span>
 <span class="co">#&gt; 1 R/assertions.R             124               295 2021-02-07 03:01:44 rw-rw-r--  </span>
 <span class="co">#&gt; 2 R/create.R               1.48K             3.94K 2021-02-08 20:55:36 rw-rw-r--  </span>
 <span class="co">#&gt; 3 R/example.R                235               377 2021-02-08 01:53:56 rw-rw-r--  </span>
-<span class="co">#&gt; 4 R/extract.R              1.05K              2.4K 2021-02-08 21:03:32 rw-rw-r--  </span>
-<span class="co">#&gt; 5 R/list.R                   616             1.29K 2021-02-08 20:53:54 rw-rw-r--  </span>
-<span class="co">#&gt; 6 R/utils.R                1.01K             3.32K 2021-02-07 21:32:46 rw-rw-r--  </span>
-<span class="co">#&gt; 7 R/zippr.R                  440               741 2021-02-08 18:41:58 rw-rw-r--</span></code></pre></div>
+<span class="co">#&gt; 4 R/extract.R              1.06K             2.41K 2021-02-08 21:53:02 rw-rw-r--  </span>
+<span class="co">#&gt; 5 R/list.R                   600             1.25K 2021-02-09 01:21:28 rw-rw-r--  </span>
+<span class="co">#&gt; 6 R/size.R                   449             1.08K 2021-02-09 01:14:36 rw-rw-r--  </span>
+<span class="co">#&gt; 7 R/utils.R                1.01K             3.32K 2021-02-07 21:32:46 rw-rw-r--  </span>
+<span class="co">#&gt; 8 R/zippr.R                  440               741 2021-02-08 18:41:58 rw-rw-r--</span></code></pre></div>
+<p>To get just the file names, use <code><a href="reference/zip_info.html">zip_ls()</a></code>. To get file sizes, use <code>zip_size().</code></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/zip_info.html">zip_ls</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span>
+<span class="co">#&gt; R/assertions.R R/create.R     R/example.R    R/extract.R    R/list.R       R/size.R       </span>
+<span class="co">#&gt; R/utils.R      R/zippr.R</span>
+<span class="fu"><a href="reference/zip_size.html">zip_size</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span>
+<span class="co">#&gt; 295   3.94K 377   2.41K   1.25K   1.08K   3.32K 741</span></code></pre></div>
 </div>
 <div id="extracting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#extracting" class="anchor"></a>Extracting</h3>
-<p><code><a href="reference/zip_extract.html">zip_extract()</a></code> uncompresses a ZIP archive:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p><code><a href="reference/zip_extract.html">zip_extract()</a></code> uncompresses a ZIP archive to a given directory.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/zip_extract.html">zip_extract</a></span><span class="op">(</span>
   zipfile <span class="op">=</span> <span class="va">tmp</span>, 
   exdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, 
   junk_paths <span class="op">=</span> <span class="cn">TRUE</span>,
 <span class="op">)</span>
 <span class="fu"><a href="http://fs.r-lib.org/reference/file_info.html">file_info</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
+<span class="co">#&gt; # A tibble: 8 x 5</span>
 <span class="co">#&gt;   path                         type         size permissions modification_time  </span>
 <span class="co">#&gt;   &lt;fs::path&gt;                   &lt;fct&gt; &lt;fs::bytes&gt; &lt;fs::perms&gt; &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 /tmp/RtmpcF3nL3/assertions.R file          295 rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 2 /tmp/RtmpcF3nL3/create.R     file        3.94K rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 3 /tmp/RtmpcF3nL3/example.R    file          377 rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 4 /tmp/RtmpcF3nL3/extract.R    file         2.4K rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 5 /tmp/RtmpcF3nL3/list.R       file        1.29K rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 6 /tmp/RtmpcF3nL3/utils.R      file        3.32K rw-rw-r--   2021-02-08 16:06:11</span>
-<span class="co">#&gt; 7 /tmp/RtmpcF3nL3/zippr.R      file          741 rw-rw-r--   2021-02-08 16:06:11</span></code></pre></div>
+<span class="co">#&gt; 1 /tmp/Rtmpn9Cced/assertions.R file          295 rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 2 /tmp/Rtmpn9Cced/create.R     file        3.94K rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 3 /tmp/Rtmpn9Cced/example.R    file          377 rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 4 /tmp/Rtmpn9Cced/extract.R    file        2.41K rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 5 /tmp/Rtmpn9Cced/list.R       file        1.25K rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 6 /tmp/Rtmpn9Cced/size.R       file        1.08K rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 7 /tmp/Rtmpn9Cced/utils.R      file        3.32K rw-rw-r--   2021-02-08 20:22:05</span>
+<span class="co">#&gt; 8 /tmp/Rtmpn9Cced/zippr.R      file          741 rw-rw-r--   2021-02-08 20:22:05</span></code></pre></div>
 <!-- refs: start -->
 <!-- refs: end -->
 </div>
