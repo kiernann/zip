@@ -3,7 +3,7 @@
 #' @description
 #' [zip_info()] is similar to the `unzip -l` command. Compared to
 #' [zip::zip_list()], the data frame is returned as a tibble when available and
-#' columns use human readable classes like [fs::dir_info()].
+#' columns use human-readable classes like [fs::dir_info()].
 #'
 #' [zip_ls()] returns only the names of the files in an archive, like
 #' [fs::dir_ls()].

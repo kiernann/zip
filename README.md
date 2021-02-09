@@ -24,12 +24,13 @@ functionality of this package is still extremely fluid.
 Three main types of changes are being made:
 
 1.  Consistently rename *all* functions with `zip_*` to avoid masking
-    `utils::zip()` and `utils::unzip()`.
+    `utils::zip()` and `utils::unzip()`. Match to names like
+    `fs::dir_info()`.
 2.  Arrange arguments in a consistent order, accepting the primary file
-    paths as the first argument for easy piping.
-3.  Return more data (sometimes invisibly) with
-    [tibble](https://github.com/tidyverse/tibble/) and
-    [fs](https://github.com/r-lib/fs/) classes.
+    paths as the first argument for easy piping with `%>%`.
+3.  Return more data (sometimes invisibly) with human-readable
+    [tibble](https://github.com/tidyverse/tibble/) data frames and
+    [fs](https://github.com/r-lib/fs/) class vectors.
 
 ## Installation
 
@@ -39,6 +40,13 @@ You can install the development version of zippr from
 ``` r
 # install.packages("remotes")
 remotes::install_github("kiernann/zippr")
+```
+
+Install the release version of zip from
+[CRAN](https://cran.r-project.org/package=zip) if needed.
+
+``` r
+install.packages("zip")
 ```
 
 ## Usage
@@ -70,7 +78,7 @@ file_info(tmp)[, 1:5]
 #> # A tibble: 1 x 5
 #>   path        type         size permissions modification_time  
 #>   <fs::path>  <fct> <fs::bytes> <fs::perms> <dttm>             
-#> 1 sources.zip file        5.71K rw-rw-r--   2021-02-08 16:06:11
+#> 1 sources.zip file        6.25K rw-rw-r--   2021-02-08 20:22:05
 ```
 
 Directories are added recursively by default.
@@ -80,27 +88,38 @@ existing ZIP archive.
 
 ### Listing
 
-`zip_list()` lists files in a ZIP archive. It returns a tibble with
-human readable [fs](https://github.com/r-lib/fs/) columns. To get just
-the file *names*, use `zip_ls()`.
+`zip_info()` lists files in a ZIP archive. It returns a data frame with
+human-readable [fs](https://github.com/r-lib/fs/) columns.
 
 ``` r
 zip_info(tmp)
-#> # A tibble: 7 x 5
+#> # A tibble: 8 x 5
 #>   filename       compressed_size uncompressed_size timestamp           permissions
 #>   <fs::path>         <fs::bytes>       <fs::bytes> <dttm>              <fs::perms>
 #> 1 R/assertions.R             124               295 2021-02-07 03:01:44 rw-rw-r--  
 #> 2 R/create.R               1.48K             3.94K 2021-02-08 20:55:36 rw-rw-r--  
 #> 3 R/example.R                235               377 2021-02-08 01:53:56 rw-rw-r--  
-#> 4 R/extract.R              1.05K              2.4K 2021-02-08 21:03:32 rw-rw-r--  
-#> 5 R/list.R                   616             1.29K 2021-02-08 20:53:54 rw-rw-r--  
-#> 6 R/utils.R                1.01K             3.32K 2021-02-07 21:32:46 rw-rw-r--  
-#> 7 R/zippr.R                  440               741 2021-02-08 18:41:58 rw-rw-r--
+#> 4 R/extract.R              1.06K             2.41K 2021-02-08 21:53:02 rw-rw-r--  
+#> 5 R/list.R                   600             1.25K 2021-02-09 01:21:28 rw-rw-r--  
+#> 6 R/size.R                   449             1.08K 2021-02-09 01:14:36 rw-rw-r--  
+#> 7 R/utils.R                1.01K             3.32K 2021-02-07 21:32:46 rw-rw-r--  
+#> 8 R/zippr.R                  440               741 2021-02-08 18:41:58 rw-rw-r--
+```
+
+To get just the file names, use `zip_ls()`. To get file sizes, use
+`zip_size().`
+
+``` r
+zip_ls(tmp)
+#> R/assertions.R R/create.R     R/example.R    R/extract.R    R/list.R       R/size.R       
+#> R/utils.R      R/zippr.R
+zip_size(tmp)
+#> 295   3.94K 377   2.41K   1.25K   1.08K   3.32K 741
 ```
 
 ### Extracting
 
-`zip_extract()` uncompresses a ZIP archive:
+`zip_extract()` uncompresses a ZIP archive to a given directory.
 
 ``` r
 out <- zip_extract(
@@ -109,16 +128,17 @@ out <- zip_extract(
   junk_paths = TRUE,
 )
 file_info(out)[, 1:5]
-#> # A tibble: 7 x 5
+#> # A tibble: 8 x 5
 #>   path                         type         size permissions modification_time  
 #>   <fs::path>                   <fct> <fs::bytes> <fs::perms> <dttm>             
-#> 1 /tmp/RtmpcF3nL3/assertions.R file          295 rw-rw-r--   2021-02-08 16:06:11
-#> 2 /tmp/RtmpcF3nL3/create.R     file        3.94K rw-rw-r--   2021-02-08 16:06:11
-#> 3 /tmp/RtmpcF3nL3/example.R    file          377 rw-rw-r--   2021-02-08 16:06:11
-#> 4 /tmp/RtmpcF3nL3/extract.R    file         2.4K rw-rw-r--   2021-02-08 16:06:11
-#> 5 /tmp/RtmpcF3nL3/list.R       file        1.29K rw-rw-r--   2021-02-08 16:06:11
-#> 6 /tmp/RtmpcF3nL3/utils.R      file        3.32K rw-rw-r--   2021-02-08 16:06:11
-#> 7 /tmp/RtmpcF3nL3/zippr.R      file          741 rw-rw-r--   2021-02-08 16:06:11
+#> 1 /tmp/Rtmpn9Cced/assertions.R file          295 rw-rw-r--   2021-02-08 20:22:05
+#> 2 /tmp/Rtmpn9Cced/create.R     file        3.94K rw-rw-r--   2021-02-08 20:22:05
+#> 3 /tmp/Rtmpn9Cced/example.R    file          377 rw-rw-r--   2021-02-08 20:22:05
+#> 4 /tmp/Rtmpn9Cced/extract.R    file        2.41K rw-rw-r--   2021-02-08 20:22:05
+#> 5 /tmp/Rtmpn9Cced/list.R       file        1.25K rw-rw-r--   2021-02-08 20:22:05
+#> 6 /tmp/Rtmpn9Cced/size.R       file        1.08K rw-rw-r--   2021-02-08 20:22:05
+#> 7 /tmp/Rtmpn9Cced/utils.R      file        3.32K rw-rw-r--   2021-02-08 20:22:05
+#> 8 /tmp/Rtmpn9Cced/zippr.R      file          741 rw-rw-r--   2021-02-08 20:22:05
 ```
 
 <!-- refs: start -->

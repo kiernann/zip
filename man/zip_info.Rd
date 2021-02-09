@@ -18,7 +18,7 @@ A data.frame with 'fs' class columns.
 \description{
 \code{\link[=zip_info]{zip_info()}} is similar to the \code{unzip -l} command. Compared to
 \code{\link[zip:zip_list]{zip::zip_list()}}, the data frame is returned as a tibble when available and
-columns use human readable classes like \code{\link[fs:dir_ls]{fs::dir_info()}}.
+columns use human-readable classes like \code{\link[fs:dir_ls]{fs::dir_info()}}.
 
 \code{\link[=zip_ls]{zip_ls()}} returns only the names of the files in an archive, like
 \code{\link[fs:dir_ls]{fs::dir_ls()}}.

@@ -3,7 +3,7 @@
 \name{zip_size}
 \alias{zip_size}
 \alias{zip_ratio}
-\title{List ZIP archive file sizes and compression ratios}
+\title{Compressed file sizes and ratios}
 \usage{
 zip_size(archive, sum = FALSE)
 
@@ -15,7 +15,7 @@ zip_ratio(archive, sum = FALSE)
 \item{sum}{Whether to return a single size or ratio from the sum of sizes.}
 }
 \value{
-A numeric vector of compression ratios or file sizes.
+A named numeric vector of compression ratios or file sizes.
 }
 \description{
 \code{zip_size()} returns the uncompressed size of files within an archive.

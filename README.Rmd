@@ -38,7 +38,7 @@ Three main types of changes are being made:
    `utils::zip()` and `utils::unzip()`. Match to names like `fs::dir_info()`.
 2. Arrange arguments in a consistent order, accepting the primary file paths as
    the first argument for easy piping with `%>%`.
-3. Return more data (sometimes invisibly) with human readable [tibble] data 
+3. Return more data (sometimes invisibly) with human-readable [tibble] data 
    frames and [fs] class vectors.
 
 ## Installation
@@ -90,18 +90,25 @@ ZIP archive.
 
 ### Listing
 
-`zip_list()` lists files in a ZIP archive. It returns a tibble with human
-readable [fs] columns. To get just the file _names_, use `zip_ls()`.
+`zip_info()` lists files in a ZIP archive. It returns a data frame with 
+human-readable [fs] columns.
 
 ```{r zip_info}
 zip_info(tmp)
 ```
 
+To get just the file names, use `zip_ls()`. To get file sizes, use `zip_size().`
+
+```{r zip_ls}
+zip_ls(tmp)
+zip_size(tmp)
+```
+
 ### Extracting
 
-`zip_extract()` uncompresses a ZIP archive:
+`zip_extract()` uncompresses a ZIP archive to a given directory.
 
-```{r}
+```{r zip_extract}
 out <- zip_extract(
   zipfile = tmp, 
   exdir = tempdir(), 
@@ -110,6 +117,9 @@ out <- zip_extract(
 file_info(out)[, 1:5]
 ```
 
+```{r cleanup, echo=FALSE}
+file_delete(tmp)
+```
 
 <!-- refs: start -->
 [life_badge]: https://img.shields.io/badge/lifecycle-experimental-orange.svg
