@@ -13,6 +13,7 @@
 #' zip_size(zip_example())
 #' zip_ratio(zip_example(), sum = TRUE)
 #' @importFrom fs fs_bytes
+#' @importFrom stats setNames
 #' @export
 zip_size <- function(archive, sum = FALSE) {
   archive <- enc2utf8(normalizePath(archive))
