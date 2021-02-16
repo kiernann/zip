@@ -1,4 +1,3 @@
-`%||%` <- function(l, r) if (is.null(l)) r else l
 
 get_zip_data <- function(files, recurse, keep_path, include_directories) {
   list <- if (keep_path) {
@@ -117,18 +116,6 @@ get_zip_data_nopath_recursive <- function(x) {
     file = normalizePath(files),
     dir = dir
   )
-}
-
-mkdirp <- function(x, ...) {
-  dir.create(x, showWarnings = FALSE, recursive = TRUE, ...)
-}
-
-need_packages <- function(pkgs, what = "this function") {
-  for (p in pkgs) {
-    if (!requireNamespace(p, quietly = TRUE)) {
-      stop(sprintf("The `%s` package is needed for %s", p, what))
-    }
-  }
 }
 
 # from r-lib/fs/R/utils.R
